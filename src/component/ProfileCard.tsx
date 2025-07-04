@@ -50,12 +50,13 @@ export default function ProfileCard({ user }: ProfileCardProps) {
 
                 {/* Save Contact Button */}
                 <a
-                    href={`${API_BASE_URL}/api/users/${user.slug}/vcard`}
+                    href={`${API_BASE_URL}/api/users/${user.slug}/vcard.vcf`}
                     download
                     className="mt-6 inline-block bg-white text-black font-semibold py-2 px-4 rounded-md hover:bg-gray-200 transition"
                 >
                     📁 Save Contact
                 </a>
+
 
                 {/* Connect Links */}
                 <div className="mt-8 text-left">
