@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ProfileCard from '../component/ProfileCard.tsx';
 
-// Define the type for profile_links
 interface SocialLinks {
     linkedin?: string | null;
     github?: string | null;
@@ -12,7 +11,6 @@ interface SocialLinks {
     website?: string | null;
 }
 
-// Define the type for the user
 interface User {
     full_name: string;
     headline: string;
@@ -29,11 +27,14 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    // Hardcoded Azure Web App backend URL
+    const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get<User>(`http://localhost:8080/u/${slug}`);
+                const response = await axios.get<User>(`${API_BASE_URL}/u/${slug}`);
                 setUser(response.data);
                 setLoading(false);
             } catch (err: unknown) {
@@ -51,9 +52,26 @@ export default function ProfilePage() {
         }
     }, [slug]);
 
-    if (loading) return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
-    if (error) return <div className="min-h-screen bg-black text-white flex items-center justify-center">Error: {error}</div>;
-    if (!user) return <div className="min-h-screen bg-black text-white flex items-center justify-center">User not found</div>;
+    if (loading)
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center">
+                Loading...
+            </div>
+        );
+
+    if (error)
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center">
+                Error: {error}
+            </div>
+        );
+
+    if (!user)
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center">
+                User not found
+            </div>
+        );
 
     return <ProfileCard user={user} />;
 }
