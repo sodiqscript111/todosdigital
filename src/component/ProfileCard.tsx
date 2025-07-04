@@ -6,7 +6,6 @@ import {
     EnvelopeIcon,
 } from '@heroicons/react/24/outline';
 
-// Define the type for profile_links
 interface SocialLinks {
     linkedin?: string | null;
     github?: string | null;
@@ -14,7 +13,6 @@ interface SocialLinks {
     website?: string | null;
 }
 
-// Define the type for the user prop
 interface User {
     full_name: string;
     headline: string;
@@ -25,10 +23,12 @@ interface User {
     profile_links?: SocialLinks;
 }
 
-// Define the props type for ProfileCard
 interface ProfileCardProps {
-    user: User; // No longer optional, as user is always provided
+    user: User;
 }
+
+// 💡 Azure backend URL
+const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
 
 export default function ProfileCard({ user }: ProfileCardProps) {
     return (
@@ -50,7 +50,7 @@ export default function ProfileCard({ user }: ProfileCardProps) {
 
                 {/* Save Contact Button */}
                 <a
-                    href={`http://localhost:8080/api/users/${user.slug}/vcard`}
+                    href={`${API_BASE_URL}/api/users/${user.slug}/vcard`}
                     download
                     className="mt-6 inline-block bg-white text-black font-semibold py-2 px-4 rounded-md hover:bg-gray-200 transition"
                 >
@@ -114,7 +114,7 @@ export default function ProfileCard({ user }: ProfileCardProps) {
 
                 {/* Footer */}
                 <div className="mt-10 text-center text-gray-500 text-xs">
-                    Powered by Digital NFC Card
+                    Powered by todosdigitals
                 </div>
             </div>
         </div>
