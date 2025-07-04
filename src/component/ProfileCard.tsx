@@ -114,7 +114,7 @@ export default function ProfileCard({ user }: ProfileCardProps) {
 
                 {/* Footer */}
                 <div className="mt-10 text-center text-gray-500 text-xs">
-                    Powered by todosdigitals
+                    Powered by todosdigitals.
                 </div>
             </div>
         </div>
