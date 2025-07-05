@@ -2,8 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SetupPage from '../src/pages/setupPage';
 import ProfilePage from '../src/pages/profilePage';
-// @ts-ignore
-import LandingPage from '../src/pages/landingPage';
+import LandingPage from '../src/pages/landingpage.tsx';
 
 function App() {
     return (
