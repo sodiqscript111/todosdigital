@@ -12,6 +12,7 @@ import BrandingHero from "./pages/branding.tsx";
 import WebsiteHero from "./pages/website.tsx";
 import VideoEditingHero from "./pages/videography.tsx";
 import ScrollToTop from "./ScrollToTop";
+import TagRedirectPage from "./pages/tagRedirectPage.tsx";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/branding" element={<BrandingHero/>}/>
                 <Route path="/website-design" element={<WebsiteHero/>}/>
                 <Route path="/video-editing" element={<VideoEditingHero/>}/>
+                <Route path="/tag/:uid" element={<TagRedirectPage />} />
             </Routes>
         </Router>
     );
