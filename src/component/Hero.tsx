@@ -24,7 +24,7 @@ export default function HeroSection() {
 
     return (
         <section
-            className="h-[80vh] sm:h-[90vh] md:h-screen w-full bg-cover bg-center text-white flex flex-col justify-between relative font-sans"
+            className="h-[80vh] sm:h-[60vh] md:h-screen w-full bg-cover bg-center bg-no-repeat text-white flex flex-col justify-between relative font-sans"
             style={{
                 backgroundImage: "url('https://i.imghippo.com/files/MtMo9266IE.jpg')",
             }}
@@ -45,7 +45,7 @@ export default function HeroSection() {
                 </p>
                 <a
                     href="#contact"
-                    className="inline-block bg-[#3e60a2] text-white px-10 py-4 shadow-lg hover:bg-black-200 transition duration-300 text-lg md:text-xl"
+                    className="inline-block bg-[#3e60a2] text-white px-10 py-4 shadow-lg hover:bg-black transition duration-300 text-lg md:text-xl"
                 >
                     Contact Us
                 </a>
