@@ -13,23 +13,25 @@ import WebsiteHero from "./pages/website.tsx";
 import VideoEditingHero from "./pages/videography.tsx";
 import ScrollToTop from "./ScrollToTop";
 import TagRedirectPage from "./pages/tagRedirectPage.tsx";
+import Navbar from './component/Navbar'; // ✅ import the navbar
 
 function App() {
     return (
         <Router>
-            <ScrollToTop/>
+            <ScrollToTop />
+            <Navbar /> {/* ✅ Include the sticky navbar here */}
             <Routes>
-                <Route path="/" element={<HomePage/>} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/nfc-card" element={<LandingPage />} />
-                <Route path="/setup" element={<SetupPage/>}/>
+                <Route path="/setup" element={<SetupPage />} />
                 <Route path="/u/:slug" element={<ProfilePage />} />
                 <Route path="/all-services" element={<AllServices />} />
-                <Route path="/printing" element={<PrintingHero/>}/>
-                <Route path="/social-media-design" element={<SocialMediaHero/>}/>
-                <Route path="/graphic-design" element={<GraphicDesignHero/>}/>
-                <Route path="/branding" element={<BrandingHero/>}/>
-                <Route path="/website-design" element={<WebsiteHero/>}/>
-                <Route path="/video-editing" element={<VideoEditingHero/>}/>
+                <Route path="/printing" element={<PrintingHero />} />
+                <Route path="/social-media-design" element={<SocialMediaHero />} />
+                <Route path="/graphic-design" element={<GraphicDesignHero />} />
+                <Route path="/branding" element={<BrandingHero />} />
+                <Route path="/website-design" element={<WebsiteHero />} />
+                <Route path="/video-editing" element={<VideoEditingHero />} />
                 <Route path="/tag/:uid" element={<TagRedirectPage />} />
             </Routes>
         </Router>
