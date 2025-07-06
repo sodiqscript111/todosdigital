@@ -1,9 +1,7 @@
 // src/SetupPage.tsx
-// 📦 Installation requirements:
-// npm install tailwindcss @heroicons/react react-router-dom axios @types/react @types/react-dom @types/react-router-dom
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface SocialLinksInput {
@@ -11,10 +9,10 @@ interface SocialLinksInput {
     github?: string;
     twitter?: string;
     website?: string;
-    facebook?: string;  // Added
-    instagram?: string; // Added
-    youtube?: string;   // Added
-    tiktok?: string;    // Added
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+    tiktok?: string;
 }
 
 interface CreateUserInput {
@@ -28,6 +26,7 @@ interface CreateUserInput {
 
 export default function SetupPage() {
     const navigate = useNavigate();
+    const { uid } = useParams<{ uid?: string }>();
 
     const [formData, setFormData] = useState<CreateUserInput>({
         full_name: '',
@@ -40,10 +39,10 @@ export default function SetupPage() {
             github: '',
             twitter: '',
             website: '',
-            facebook: '',   // Added
-            instagram: '',  // Added
-            youtube: '',    // Added
-            tiktok: '',     // Added
+            facebook: '',
+            instagram: '',
+            youtube: '',
+            tiktok: '',
         },
     });
 
@@ -51,12 +50,10 @@ export default function SetupPage() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
-    // Hardcoded Azure Web App backend URL
     const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-
         if (name.startsWith('profile_links.')) {
             const key = name.split('.')[1] as keyof SocialLinksInput;
             setFormData((prev) => ({
@@ -101,8 +98,12 @@ export default function SetupPage() {
 
             const imageUrl = uploadResponse.data.secure_url;
 
+            const endpoint = uid
+                ? `${API_BASE_URL}/setup/${uid}` // QR flow
+                : `${API_BASE_URL}/setup`;       // Normal flow
+
             const response = await axios.post<{ message: string; profile_link: string }>(
-                `${API_BASE_URL}/setup`,
+                endpoint,
                 { ...formData, image_url: imageUrl }
             );
 
@@ -118,90 +119,30 @@ export default function SetupPage() {
             } else if (err instanceof Error) {
                 setError(err.message);
             } else {
-                setError('Failed to create profile due to an unknown error.');
+                setError('An unknown error occurred while creating profile.');
             }
         } finally {
             setLoading(false);
         }
     };
 
-    // Define all social media keys including the new ones
     const socialMediaKeys: (keyof SocialLinksInput)[] = [
-        'linkedin',
-        'github',
-        'twitter',
-        'website',
-        'facebook',   // New
-        'instagram',  // New
-        'youtube',    // New
-        'tiktok',     // New
+        'linkedin', 'github', 'twitter', 'website',
+        'facebook', 'instagram', 'youtube', 'tiktok'
     ];
 
     return (
         <div className="min-h-screen bg-black flex items-center justify-center p-4">
             <div className="bg-black border border-neutral-800 rounded-2xl p-6 max-w-md w-full text-white shadow-xl">
-                <h1 className="text-2xl font-bold text-center mb-6">Create Your Profile</h1>
+                <h1 className="text-2xl font-bold text-center mb-6">
+                    {uid ? 'Set Up Your NFC Profile' : 'Create Your Profile'}
+                </h1>
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                    <div>
-                        <label htmlFor="full_name" className="block text-sm text-gray-400">
-                            Full Name *
-                        </label>
-                        <input
-                            type="text"
-                            id="full_name"
-                            name="full_name"
-                            value={formData.full_name}
-                            onChange={handleChange}
-                            required
-                            className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700 focus:outline-none focus:border-white"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="headline" className="block text-sm text-gray-400">
-                            Headline *
-                        </label>
-                        <input
-                            type="text"
-                            id="headline"
-                            name="headline"
-                            value={formData.headline}
-                            onChange={handleChange}
-                            required
-                            className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700 focus:outline-none focus:border-white"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="company" className="block text-sm text-gray-400">
-                            Company *
-                        </label>
-                        <input
-                            type="text"
-                            id="company"
-                            name="company"
-                            value={formData.company}
-                            onChange={handleChange}
-                            required
-                            className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700 focus:outline-none focus:border-white"
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="email" className="block text-sm text-gray-400">
-                            Email *
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700 focus:outline-none focus:border-white"
-                        />
-                    </div>
+                    <InputField label="Full Name *" name="full_name" value={formData.full_name} onChange={handleChange} />
+                    <InputField label="Headline *" name="headline" value={formData.headline} onChange={handleChange} />
+                    <InputField label="Company *" name="company" value={formData.company} onChange={handleChange} />
+                    <InputField label="Email *" name="email" value={formData.email} onChange={handleChange} type="email" />
 
                     <div>
                         <label htmlFor="image_file" className="block text-sm text-gray-400">
@@ -210,7 +151,6 @@ export default function SetupPage() {
                         <input
                             type="file"
                             id="image_file"
-                            name="image_file"
                             accept="image/*"
                             onChange={handleImageChange}
                             required
@@ -218,21 +158,15 @@ export default function SetupPage() {
                         />
                     </div>
 
-                    {/* Loop through all social media keys, including the new ones */}
                     {socialMediaKeys.map((key) => (
-                        <div key={key}>
-                            <label htmlFor={`profile_links.${key}`} className="block text-sm text-gray-400 capitalize">
-                                {key.charAt(0).toUpperCase() + key.slice(1)} URL
-                            </label>
-                            <input
-                                type="url"
-                                id={`profile_links.${key}`}
-                                name={`profile_links.${key}`}
-                                value={formData.profile_links?.[key] || ''}
-                                onChange={handleChange}
-                                className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700 focus:outline-none focus:border-white"
-                            />
-                        </div>
+                        <InputField
+                            key={key}
+                            label={`${key.charAt(0).toUpperCase() + key.slice(1)} URL`}
+                            name={`profile_links.${key}`}
+                            value={formData.profile_links?.[key] || ''}
+                            onChange={handleChange}
+                            type="url"
+                        />
                     ))}
 
                     <button
@@ -244,6 +178,32 @@ export default function SetupPage() {
                     </button>
                 </form>
             </div>
+        </div>
+    );
+}
+
+type InputFieldProps = {
+    label: string;
+    name: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    type?: string;
+};
+
+function InputField({ label, name, value, onChange, type = 'text' }: InputFieldProps) {
+    return (
+        <div>
+            <label htmlFor={name} className="block text-sm text-gray-400">
+                {label}
+            </label>
+            <input
+                type={type}
+                id={name}
+                name={name}
+                value={value}
+                onChange={onChange}
+                className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700 focus:outline-none focus:border-white"
+            />
         </div>
     );
 }
