@@ -11,6 +11,10 @@ interface SocialLinksInput {
     github?: string;
     twitter?: string;
     website?: string;
+    facebook?: string;  // Added
+    instagram?: string; // Added
+    youtube?: string;   // Added
+    tiktok?: string;    // Added
 }
 
 interface CreateUserInput {
@@ -36,6 +40,10 @@ export default function SetupPage() {
             github: '',
             twitter: '',
             website: '',
+            facebook: '',   // Added
+            instagram: '',  // Added
+            youtube: '',    // Added
+            tiktok: '',     // Added
         },
     });
 
@@ -116,6 +124,18 @@ export default function SetupPage() {
             setLoading(false);
         }
     };
+
+    // Define all social media keys including the new ones
+    const socialMediaKeys: (keyof SocialLinksInput)[] = [
+        'linkedin',
+        'github',
+        'twitter',
+        'website',
+        'facebook',   // New
+        'instagram',  // New
+        'youtube',    // New
+        'tiktok',     // New
+    ];
 
     return (
         <div className="min-h-screen bg-black flex items-center justify-center p-4">
@@ -198,7 +218,8 @@ export default function SetupPage() {
                         />
                     </div>
 
-                    {(['linkedin', 'github', 'twitter', 'website'] as (keyof SocialLinksInput)[]).map((key) => (
+                    {/* Loop through all social media keys, including the new ones */}
+                    {socialMediaKeys.map((key) => (
                         <div key={key}>
                             <label htmlFor={`profile_links.${key}`} className="block text-sm text-gray-400 capitalize">
                                 {key.charAt(0).toUpperCase() + key.slice(1)} URL
