@@ -33,7 +33,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/60 to-black"></div>
 
             {/* Content */}
-            <div className="relative flex-1 flex flex-col justify-center items-start text-left px-8 z-10 pt-20 space-y-6">
+            <div className="relative flex-1 flex flex-col justify-center items-start text-left px-8 z-10 pt-10 space-y-6">
                 <h1 className="text-4xl md:text-6xl font-bold max-w-2xl">
                     The Business Solution You Need
                 </h1>

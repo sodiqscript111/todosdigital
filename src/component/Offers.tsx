@@ -87,11 +87,11 @@ export default function OffersCarousel() {
     };
 
     return (
-        <section className="h-screen bg-black px-6 md:px-28 pt-6 md:pt-10 pb-10 flex flex-col justify-between">
+        <section className="h-screen bg-white px-6 md:px-28 pt-6 md:pt-10 pb-10 flex flex-col justify-between">
             {/* Header */}
             <div className="text-center">
-                <h2 className="text-4xl md:text-5xl font-extrabold text-white">What We Offer</h2>
-                <p className="text-xl md:text-2xl text-gray-300 mt-4">
+                <h2 className="text-4xl md:text-5xl font-extrabold text-black">What We Offer</h2>
+                <p className="text-xl md:text-2xl text-black-300 mt-4">
                     Explore our range of services tailored to elevate your brand.
                 </p>
             </div>
@@ -129,7 +129,7 @@ export default function OffersCarousel() {
             <div className="text-center mt-6">
                 <Link
                     to="/all-services"
-                    className="inline-flex items-center gap-2 px-7 py-3 bg-white text-black text-base font-semibold rounded-full hover:bg-gray-200 transition"
+                    className="inline-flex items-center gap-2 px-7 py-3 bg-black text-white text-base font-semibold rounded-full hover:bg-gray-200 transition"
                 >
                     All Services <ArrowRight className="w-4 h-4" />
                 </Link>
