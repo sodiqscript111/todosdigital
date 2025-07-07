@@ -1,7 +1,5 @@
-// src/SetupPage.tsx
-
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface SocialLinksInput {
@@ -26,8 +24,6 @@ interface CreateUserInput {
 
 export default function SetupPage() {
     const navigate = useNavigate();
-    const { uid } = useParams<{ uid?: string }>();
-
     const [formData, setFormData] = useState<CreateUserInput>({
         full_name: '',
         headline: '',
@@ -45,12 +41,12 @@ export default function SetupPage() {
             tiktok: '',
         },
     });
-
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [profileLink, setProfileLink] = useState<string | null>(null);
 
-    const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
+    const API_BASE_URL = 'https://www.todosdigitals.com';
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -98,15 +94,12 @@ export default function SetupPage() {
 
             const imageUrl = uploadResponse.data.secure_url;
 
-            const endpoint = uid
-                ? `${API_BASE_URL}/setup/${uid}` // QR flow
-                : `${API_BASE_URL}/setup`;       // Normal flow
-
             const response = await axios.post<{ message: string; profile_link: string }>(
-                endpoint,
+                `${API_BASE_URL}/setup`,
                 { ...formData, image_url: imageUrl }
             );
 
+            setProfileLink(response.data.profile_link);
             const slug = response.data.profile_link.split('/').pop();
             if (slug) {
                 navigate(`/u/${slug}`);
@@ -115,7 +108,7 @@ export default function SetupPage() {
             }
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
-                setError(err.response?.data?.message || err.message);
+                setError(err.response?.data?.error || err.message);
             } else if (err instanceof Error) {
                 setError(err.message);
             } else {
@@ -134,10 +127,13 @@ export default function SetupPage() {
     return (
         <div className="min-h-screen bg-black flex items-center justify-center p-4">
             <div className="bg-black border border-neutral-800 rounded-2xl p-6 max-w-md w-full text-white shadow-xl">
-                <h1 className="text-2xl font-bold text-center mb-6">
-                    {uid ? 'Set Up Your NFC Profile' : 'Create Your Profile'}
-                </h1>
+                <h1 className="text-2xl font-bold text-center mb-6">Create Your Profile</h1>
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+                {profileLink && (
+                    <p className="text-green-500 text-center mb-4">
+                        Profile created! Your card will be printed with: <a href={profileLink} className="underline">{profileLink}</a>
+                    </p>
+                )}
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                     <InputField label="Full Name *" name="full_name" value={formData.full_name} onChange={handleChange} />
                     <InputField label="Headline *" name="headline" value={formData.headline} onChange={handleChange} />
