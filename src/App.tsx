@@ -13,8 +13,9 @@ import WebsiteHero from "./pages/website.tsx";
 import VideoEditingHero from "./pages/videography.tsx";
 import ScrollToTop from "./ScrollToTop";
 import TagRedirectPage from "./pages/tagRedirectPage.tsx";
-import Navbar from './component/Navbar'; // ✅ import the navbar
-
+import Navbar from './component/Navbar';
+import OurWorkPage from "./pages/works.tsx";
+import AboutUs  from "./pages/aboutus.tsx";
 function App() {
     return (
         <Router>
@@ -33,6 +34,8 @@ function App() {
                 <Route path="/website-design" element={<WebsiteHero />} />
                 <Route path="/video-editing" element={<VideoEditingHero />} />
                 <Route path="/tag/:uid" element={<TagRedirectPage />} />
+                <Route path="/ourwork" element={<OurWorkPage/>}/>
+                <Route path="about" element={<AboutUs/>}/>
             </Routes>
         </Router>
     );

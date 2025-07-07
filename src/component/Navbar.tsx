@@ -20,7 +20,7 @@ export default function Navbar() {
 
     {/* Desktop Menu */}
     <div className="hidden md:flex space-x-6 items-center">
-    <Link to="/services" className="hover:text-gray-700 text-base font-medium">
+    <Link to="/all-services" className="hover:text-gray-700 text-base font-medium">
         Our Services
     </Link>
     <Link to="/about" className="hover:text-gray-700 text-base font-medium">
@@ -29,6 +29,9 @@ export default function Navbar() {
     <Link to="/products" className="hover:text-gray-700 text-base font-medium">
         All Products
     </Link>
+        <Link to="/ourwork" className="hover:text-gray-700 text-base font-medium">
+            Our Work
+        </Link>
     <Link
     to="/contact"
     className="ml-4 bg-black text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-gray-800 transition"

@@ -4,11 +4,13 @@ import Offers from "../component/Offers.tsx"
 import NfcTagSection from "../component/NfcTagSection.tsx";
 import AboutUsSection from "../component/AboutUsSection.tsx";
 import FooterSection from "../component/Footer.tsx";
+import PrintingProducts from "../component/Product.tsx";
 export default function HomePage() {
     return (
         <main className="min-h-screen bg-white text-black">
             <HeroSection />
             <Offers />
+            <PrintingProducts/>
             <NfcTagSection />
             <AboutUsSection />
             <FooterSection />

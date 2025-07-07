@@ -43,29 +43,35 @@ const services = [
 export default function AllServices() {
     return (
         <motion.section
-            className="min-h-screen bg-black text-white px-6 py-20 flex flex-col items-center"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            className="min-h-screen bg-black text-white px-6 md:px-24 py-24 flex flex-col items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
         >
-            {/* Heading */}
-            <motion.div
-                className="text-center mb-14 max-w-2xl"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-            >
-                <h1 className="text-4xl md:text-5xl font-extrabold">
-                    Explore Our Wide Range of Services
-                </h1>
-                <p className="text-lg text-gray-400 mt-4">
-                    A curated set of design, branding, and tech services to help your business grow visually and digitally.
-                </p>
-            </motion.div>
+            {/* Header Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-12 max-w-7xl mx-auto mb-20">
+                <motion.h1
+                    className="text-[14vw] md:text-[8vw] font-extrabold leading-none tracking-tight uppercase"
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    Our Services
+                </motion.h1>
+
+                <motion.p
+                    className="text-lg text-gray-300 leading-relaxed max-w-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.8 }}
+                >
+                    At Tododigitals, we offer a complete creative solution—from visual branding and marketing materials to powerful web experiences. Explore our full suite of design and production services tailored for modern businesses.
+                </motion.p>
+            </div>
 
             {/* Bento Grid */}
             <motion.div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 auto-rows-[250px] w-full max-w-7xl"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 auto-rows-[250px] max-w-7xl w-full mx-auto"
                 initial="hidden"
                 animate="show"
                 variants={{
