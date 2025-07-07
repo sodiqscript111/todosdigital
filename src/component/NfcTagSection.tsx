@@ -1,7 +1,7 @@
 export default function NfcTagSection() {
     return (
         <section
-            className="relative bg-cover bg-center text-white min-h-[50vh] flex items-center justify-center"
+            className="relative bg-cover bg-center text-white min-h-[75vh] flex items-center justify-center"
             style={{
                 backgroundImage: "url('https://i.ibb.co/Pz91TKGs/Handshake.png')",
             }}
