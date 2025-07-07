@@ -49,7 +49,7 @@ export default function ClientSlider() {
 
     return (
         <section className="py-10 bg-white">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-6 text-black">
+            <h2 className="text-3xl md:text-3xl font-bold text-center mb-6 text-black">
                 Our Clients
             </h2>
             <div className="px-4">
@@ -59,7 +59,7 @@ export default function ClientSlider() {
                             <img
                                 src={logo}
                                 alt={`Client ${index + 1}`}
-                                className="mx-auto h-16 object-contain"
+                                className="mx-auto h-26 object-contain"
                             />
                         </div>
                     ))}
