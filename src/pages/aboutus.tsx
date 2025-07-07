@@ -22,7 +22,7 @@ export default function AboutUs() {
                     className="text-gray-300 text-base md:text-lg leading-relaxed"
                 >
                     <p className="mb-4">
-                        Tododigitals is a creative powerhouse specializing in branding, digital design, print media, and innovative visual storytelling. Our mission is to elevate your brand identity through striking visuals and intentional design.
+                        Tododigitals is a creative  powerhouse specializing in branding, digital design, print media, and innovative visual storytelling. Our mission is to elevate your brand identity through striking visuals and intentional design.
                     </p>
                     <p>
                         We believe in clean execution, smart communication, and designs that actually work. Whether you're a startup or a seasoned company, we deliver real results that leave lasting impressions.
