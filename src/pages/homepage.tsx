@@ -9,9 +9,10 @@ export default function HomePage() {
     return (
         <main className="min-h-screen bg-white text-black">
             <HeroSection />
+            <NfcTagSection />
             <Offers />
             <PrintingProducts/>
-            <NfcTagSection />
+
             <AboutUsSection />
             <FooterSection />
             {/* Upcoming sections: What We Offer, NFC Tag, CTA, Footer */}

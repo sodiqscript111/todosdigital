@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -93,7 +93,7 @@ export default function PrintingProducts() {
             <Slider {...settings}>
                 {products.map((product, index) => (
                     <div key={index} className="px-4">
-                        <div className=" overflow-hidden bg-neutral-100 hover:shadow-xl transition duration-300 cursor-pointer">
+                        <div className="overflow-hidden bg-neutral-100 hover:shadow-xl transition duration-300 cursor-pointer">
                             <div className="h-48 w-full overflow-hidden">
                                 <img
                                     src={product.image}
@@ -114,13 +114,23 @@ export default function PrintingProducts() {
                                     rel="noopener noreferrer"
                                     className="inline-block mt-3 px-4 py-2 text-sm bg-black text-white rounded hover:bg-gray-800 transition"
                                 >
-                                    Order Now
+                                    Get Quote
                                 </a>
                             </div>
                         </div>
                     </div>
                 ))}
             </Slider>
+
+            {/* See All Button */}
+            <div className="text-center mt-10">
+                <Link
+                    to="/printing"
+                    className="inline-block px-6 py-3 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition"
+                >
+                    See All Products
+                </Link>
+            </div>
         </section>
     );
 }

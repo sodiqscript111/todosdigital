@@ -53,7 +53,7 @@ export default function OffersCarousel() {
     const settings = {
         dots: true,
         infinite: true,
-        speed: 800,
+        speed: 1000,
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplay: true,
