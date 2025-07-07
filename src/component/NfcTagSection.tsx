@@ -1,43 +1,47 @@
-import { Link } from "react-router-dom";
-
 export default function NfcTagSection() {
     return (
         <section
-            className="relative h-auto md:h-[65vh] bg-cover bg-center text-white"
+            className="relative bg-cover bg-center text-white min-h-[50vh] flex items-center justify-center"
             style={{
                 backgroundImage: "url('https://i.ibb.co/Pz91TKGs/Handshake.png')",
             }}
         >
             {/* Overlay */}
-            <div className="absolute inset-0 bg-[#29364f]/80"></div>
+            <div className="absolute inset-0 bg-[#29364f]/90"></div>
 
-            {/* Content Container */}
-            <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-8 py-10 md:absolute md:bottom-0 md:left-0 md:right-0">
-                <div className="flex flex-col md:flex-row items-center md:items-end justify-between gap-8 md:gap-12">
+            {/* Content */}
+            <div className="relative z-10 max-w-6xl pt-[20px] mx-auto w-full h-full">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-10 h-full px-4 md:px-8">
+
                     {/* Text Block */}
-                    <div className="text-left flex-1 mb-6 md:mb-0">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3">
+                    <div className="flex-1 flex flex-col items-start text-left space-y-4 mt-auto mb-36">
+                        <div>
+                            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-none">Smart</h2>
+                            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-none">Business Card</h2>
+                        </div>
+
+                        <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-white/90">
                             One Tap. Instant Connection.
-                        </h2>
-                        <p className="text-sm sm:text-base md:text-lg text-white/80 mb-4 max-w-md">
-                            Introducing our NFC Business Tag — a smart, contactless way to share your brand.
-                            Just one tap and clients can instantly view your profile, portfolio, or contact details.
-                            No apps, no friction.
+                        </h3>
+
+                        <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-md leading-relaxed">
+                            A digital business card for you and your team — instantly share your latest business info, stand out with tech, and easily capture leads.
                         </p>
-                        <Link
-                            to="/nfc-card"
-                            className="inline-block px-5 py-2 bg-white text-black text-sm sm:text-base font-semibold rounded-full hover:bg-gray-200 transition"
+
+                        <a
+                            href="/nfc-card"
+                            className="inline-block px-6 py-2 bg-white text-black text-sm sm:text-base font-semibold rounded-full hover:bg-gray-200 transition"
                         >
                             Create Account
-                        </Link>
+                        </a>
                     </div>
 
                     {/* Image Block */}
-                    <div className="flex-1 flex justify-center md:justify-end">
+                    <div className="flex-1 flex justify-center md:justify-end h-full">
                         <img
-                            src="https://i.ibb.co/XfH8zQF6/Creative-Credentials-Website.png"
-                            alt="NFC Business Tag Illustration"
-                            className="w-[200px] sm:w-[240px] md:w-[300px] rounded-lg"
+                            src="https://i.ibb.co/sv567FLv/image-removebg-preview-2.png"
+                            alt="NFC Business Tag"
+                            className="h-full object-contain"
                         />
                     </div>
                 </div>
