@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function NfcTagSection() {
     return (
-        <section className="bg-black text-white py-16 md:py-60">
+        <section className="bg-[#3e5fa2] text-white py-1 md:py-0">
             <div className="max-w-6xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-12">
                 {/* Left Text Block */}
                 <div className="flex-1 text-left">
@@ -25,9 +25,9 @@ export default function NfcTagSection() {
                 {/* Right Image */}
                 <div className="flex-1 flex justify-center">
                     <img
-                        src="https://i.ibb.co/Kz2Zx0Ty/Chat-GPT-Image-Jul-5-2025-10-16-30-PM.png"
+                        src="https://i.ibb.co/0p4q7mjS/image-removebg-preview-1.png"
                         alt="NFC Business Tag Illustration"
-                        className="w-full max-w-lg rounded-lg shadow-lg"
+                        className="w-full max-w-lg rounded-lg"
                     />
                 </div>
             </div>

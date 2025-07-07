@@ -86,7 +86,7 @@ export default function PrintingProducts() {
     return (
         <section className="w-full bg-white py-12 px-6 md:px-24">
             <div className="text-center mb-10">
-                <h2 className="text-3xl md:text-4xl font-bold text-black">Print Products</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-black">Featured Products</h2>
                 <p className="text-gray-600 text-lg mt-2">Order quality prints for your brand or business</p>
             </div>
 
