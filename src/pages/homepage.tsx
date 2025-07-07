@@ -5,6 +5,7 @@ import NfcTagSection from "../component/NfcTagSection.tsx";
 import AboutUsSection from "../component/AboutUsSection.tsx";
 import FooterSection from "../component/Footer.tsx";
 import PrintingProducts from "../component/Product.tsx";
+import ClientSlider from "../component/Clients.tsx";
 export default function HomePage() {
     return (
         <main className="min-h-screen bg-white text-black">
@@ -14,6 +15,7 @@ export default function HomePage() {
             <PrintingProducts/>
 
             <AboutUsSection />
+            <ClientSlider />
             <FooterSection />
             {/* Upcoming sections: What We Offer, NFC Tag, CTA, Footer */}
         </main>
