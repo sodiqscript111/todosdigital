@@ -46,7 +46,7 @@ export default function SetupPage() {
     const [loading, setLoading] = useState(false);
     const [profileLink, setProfileLink] = useState<string | null>(null);
 
-    const API_BASE_URL = 'https://www.todosdigitals.com';
+    const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
