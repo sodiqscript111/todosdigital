@@ -49,9 +49,10 @@ export default function ClientSlider() {
 
     return (
         <section className="py-10 bg-white">
-            <h2 className="text-3xl md:text-3xl font-bold text-center mb-6 text-black">
+            <h2 className="text-3xl md:text-5xl font-bold text-center mb-8 text-black">
                 Our Clients
             </h2>
+            <h3 className="text-3xl md:text-3xl font text-center mb-12 text-black"> We are trusted by brands across the globe</h3>
             <div className="px-4">
                 <Slider {...settings}>
                     {clientLogos.map((logo, index) => (

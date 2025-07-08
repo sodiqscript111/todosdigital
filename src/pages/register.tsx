@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const API_URL = 'https://tododigitals.azurewebsites.net';
@@ -32,7 +32,6 @@ export default function RegisterForm() {
             setEmail('');
             setPassword('');
 
-            // Redirect to /setup
             navigate('/setup');
         } catch (err: any) {
             setError(err.response?.data?.error || 'Something went wrong.');
@@ -92,6 +91,14 @@ export default function RegisterForm() {
                         {loading ? 'Registering...' : 'Register'}
                     </button>
                 </form>
+
+                {/* Login link */}
+                <p className="mt-6 text-center text-sm text-gray-400">
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-white underline hover:text-gray-300">
+                        Login
+                    </Link>
+                </p>
             </div>
         </div>
     );
