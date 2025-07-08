@@ -31,13 +31,15 @@ export default function Dashboard() {
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
-        if (!token) {
+        const userId = localStorage.getItem('user_id');
+
+        if (!token || !userId) {
             navigate('/login');
             return;
         }
 
         axios
-            .get('https://tododigitals.azurewebsites.net/profile', {
+            .get(`https://tododigitals.azurewebsites.net/profile/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
