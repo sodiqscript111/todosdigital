@@ -16,11 +16,14 @@ import TagRedirectPage from "./pages/tagRedirectPage.tsx";
 import Navbar from './component/Navbar';
 import OurWorkPage from "./pages/works.tsx";
 import AboutUs  from "./pages/aboutus.tsx";
+import RegisterForm from "./pages/register.tsx";
+import LoginPage from "./pages/login.tsx";
+import Dashboard from "./pages/dashboard.tsx";
 function App() {
     return (
         <Router>
             <ScrollToTop />
-            <Navbar /> {/* ✅ Include the sticky navbar here */}
+            <Navbar />
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/nfc-card" element={<LandingPage />} />
@@ -36,6 +39,9 @@ function App() {
                 <Route path="/tag/:uid" element={<TagRedirectPage />} />
                 <Route path="/ourwork" element={<OurWorkPage/>}/>
                 <Route path="about" element={<AboutUs/>}/>
+                <Route path="/register" element={<RegisterForm/>}/>
+                <Route path="/login" element={<LoginPage/>}/>
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </Router>
     );
