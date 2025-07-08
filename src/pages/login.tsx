@@ -24,10 +24,13 @@ export default function LoginForm() {
 
             const { token, user, has_profile } = response.data;
 
+            // Save user details to localStorage
             localStorage.setItem('auth_token', token);
             localStorage.setItem('user_id', user.id);
             localStorage.setItem('user_email', user.email);
+            localStorage.setItem('user_fullname', user.full_name); // 👈 For Navbar use
 
+            // Redirect based on profile availability
             if (has_profile) {
                 navigate('/dashboard');
             } else {
@@ -51,6 +54,7 @@ export default function LoginForm() {
                         <label htmlFor="email" className="block text-sm text-gray-400">Email</label>
                         <input
                             type="email"
+                            id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -62,6 +66,7 @@ export default function LoginForm() {
                         <label htmlFor="password" className="block text-sm text-gray-400">Password</label>
                         <input
                             type="password"
+                            id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required

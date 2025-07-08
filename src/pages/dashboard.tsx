@@ -31,15 +31,13 @@ export default function Dashboard() {
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
-        const userId = localStorage.getItem('user_id');
-
-        if (!token || !userId) {
+        if (!token) {
             navigate('/login');
             return;
         }
 
         axios
-            .get(`https://tododigitals.azurewebsites.net/profile/${userId}`, {
+            .get('https://tododigitals.azurewebsites.net/profile', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -48,7 +46,8 @@ export default function Dashboard() {
                 setProfile(res.data);
             })
             .catch(() => {
-                navigate('/setup');
+                // No profile exists
+                setProfile(null);
             })
             .finally(() => {
                 setLoading(false);
@@ -63,8 +62,22 @@ export default function Dashboard() {
         );
     }
 
+    // If no profile, show setup button
     if (!profile) {
-        return null;
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
+                <div className="text-center space-y-4">
+                    <h1 className="text-2xl font-bold">No profile found</h1>
+                    <p className="text-gray-400">You haven't set up your digital business card yet.</p>
+                    <button
+                        onClick={() => navigate('/setup')}
+                        className="bg-white text-black px-6 py-2 rounded-md font-semibold hover:bg-gray-200 transition"
+                    >
+                        Create Profile
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     const socialMediaLinks = Object.entries(profile.profile_links || {}).filter(([_, value]) => value);
