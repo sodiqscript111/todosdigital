@@ -39,7 +39,7 @@ export default function Dashboard() {
         }
 
         axios
-            .get(`https://tododigitals.azurewebsites.net/profile/${userId}`, {
+            .get(`https://tododigitals.azurewebsites.net/profile`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
