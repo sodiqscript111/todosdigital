@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const API_URL = 'https://tododigitals.azurewebsites.net';
@@ -10,6 +11,8 @@ export default function RegisterForm() {
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,6 +31,9 @@ export default function RegisterForm() {
             setFullName('');
             setEmail('');
             setPassword('');
+
+            // Redirect to /setup
+            navigate('/setup');
         } catch (err: any) {
             setError(err.response?.data?.error || 'Something went wrong.');
         } finally {
