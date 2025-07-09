@@ -27,12 +27,15 @@ export default function RegisterForm() {
                 password,
             });
 
-            setMessage(response.data.message || 'User registered successfully');
-            setFullName('');
-            setEmail('');
-            setPassword('');
+            const { token, user } = response.data;
 
-            navigate('/setup');
+            if (token && user) {
+                localStorage.setItem('auth_token', token);
+                localStorage.setItem('user_id', user.id);
+                navigate('/setup');
+            } else {
+                setError('Registration succeeded but token is missing.');
+            }
         } catch (err: any) {
             setError(err.response?.data?.error || 'Something went wrong.');
         } finally {
@@ -86,7 +89,7 @@ export default function RegisterForm() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition"
+                        className="w-full bg-white text-black py-2 px-4 rounded hover:bg-gray-200 transition disabled:opacity-50"
                     >
                         {loading ? 'Registering...' : 'Register'}
                     </button>

@@ -34,7 +34,7 @@ export default function NfcTagSection() {
                     <img
                         src="https://i.ibb.co/Swxfncpj/image-removebg-preview-9.png"
                         alt="NFC Tag"
-                        className="h-full w-[700px]"
+                        className="h-full w-[500px] mt-[100px]"
                     />
                 </div>
             </div>

@@ -44,8 +44,8 @@ export default function HeroSection() {
             }}
         >
             {/* Content */}
-            <div className="relative h-full w-full flex items-center ">
-                <div className="px-6 sm:px-10 md:px-20 max-w-4xl space-y-5">
+            <div className="relative h-full w-full flex items-center  ">
+                <div className="px-6 sm:px-10 md:px-10 mb-[300px] max-w-4xl space-y-3">
                     <p className="text-xl sm:text-2xl font-medium">Your Ultimate Creative Partner</p>
                     <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight">
                         All Your Brand Needs to Grow and Stand Out
