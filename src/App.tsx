@@ -19,6 +19,8 @@ import AboutUs  from "./pages/aboutus.tsx";
 import RegisterForm from "./pages/register.tsx";
 import LoginPage from "./pages/login.tsx";
 import Dashboard from "./pages/dashboard.tsx";
+import ForgotPassword from "./pages/forgotPassword.tsx";
+import ResetPassword from "./pages/resetPassword.tsx";
 function App() {
     return (
         <Router>
@@ -42,6 +44,8 @@ function App() {
                 <Route path="/register" element={<RegisterForm/>}/>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
             </Routes>
         </Router>
     );
