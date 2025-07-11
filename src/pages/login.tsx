@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const API_URL = 'https://tododigitals.azurewebsites.net';
@@ -24,18 +24,13 @@ export default function LoginForm() {
 
             const { token, user, has_profile } = response.data;
 
-            // Save user details to localStorage
+            // Save user details
             localStorage.setItem('auth_token', token);
             localStorage.setItem('user_id', user.id);
             localStorage.setItem('user_email', user.email);
-            localStorage.setItem('user_fullname', user.full_name); // 👈 For Navbar use
+            localStorage.setItem('user_fullname', user.full_name);
 
-            // Redirect based on profile availability
-            if (has_profile) {
-                navigate('/dashboard');
-            } else {
-                navigate('/setup');
-            }
+            navigate(has_profile ? '/dashboard' : '/setup');
         } catch (err: any) {
             setError(err.response?.data?.error || 'Login failed.');
         } finally {
@@ -47,6 +42,7 @@ export default function LoginForm() {
         <div className="min-h-screen bg-black flex items-center justify-center p-4">
             <div className="bg-black border border-neutral-800 rounded-2xl p-6 max-w-md w-full text-white shadow-xl">
                 <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
                 <form onSubmit={handleLogin} className="space-y-4">
@@ -72,6 +68,16 @@ export default function LoginForm() {
                             required
                             className="w-full p-2 bg-neutral-900 text-white border border-neutral-700 rounded"
                         />
+
+                        {/* 👇 Forgot password link */}
+                        <div className="text-right mt-1">
+                            <Link
+                                to="/forgot-password"
+                                className="text-sm text-gray-400 hover:text-white transition"
+                            >
+                                Forgot password?
+                            </Link>
+                        </div>
                     </div>
 
                     <button
