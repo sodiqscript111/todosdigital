@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useContext } from 'react';
-import { ThemeContext } from '../theme/ThemeContext';
+import { ThemeContext, themes } from '../theme/ThemeContext';
 import ProfileCard from '../component/ProfileCard';
 
 interface SocialLinks {
@@ -23,6 +23,7 @@ interface User {
     email: string;
     image_url: string;
     slug: string;
+    theme?: string; // Optional theme field
     profile_links?: SocialLinks;
 }
 
@@ -31,7 +32,7 @@ export default function ProfilePage() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const { theme } = useContext(ThemeContext);
+    const { theme, setThemeByName } = useContext(ThemeContext);
 
     // Hardcoded Azure Web App backend URL
     const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
@@ -40,44 +41,80 @@ export default function ProfilePage() {
         const fetchUser = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get<User>(`${API_BASE_URL}/u/${slug}`);
+                setError(null);
+                const response = await axios.get<User>(`${API_BASE_URL}/u/${slug}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`,
+                    },
+                });
                 setUser(response.data);
+                if (response.data.theme && themes[response.data.theme]) {
+                    setThemeByName(response.data.theme); // Sync with backend theme
+                }
                 setLoading(false);
             } catch (err: unknown) {
-                const errorMessage = err instanceof Error ? err.message : 'Failed to fetch user data';
+                const errorMessage =
+                    err instanceof Error
+                        ? err.message
+                        : 'Failed to fetch user data. Please try again.';
                 setError(errorMessage);
+                console.error('Profile fetch error:', err);
                 setLoading(false);
             }
         };
 
         if (slug) {
-            fetchUser();
+            // Explicitly handle the promise to satisfy ESLint
+            fetchUser().catch((err) => {
+                console.error('Unhandled error in fetchUser:', err);
+                setError('Unexpected error occurred. Please try again.');
+                setLoading(false);
+            });
         } else {
             setError('No slug provided');
             setLoading(false);
         }
-    }, [slug]);
+    }, [slug, setThemeByName]);
 
-    if (loading)
+    if (loading) {
         return (
-            <div className={`min-h-screen ${theme.background} ${theme.text} flex items-center justify-center`}>
-                <p className="text-[#0B1D51]">Loading...</p>
+            <div className={`min-h-screen flex items-center justify-center ${theme.background} ${theme.text}`}>
+                <p className="font-semibold">Loading...</p>
             </div>
         );
+    }
 
-    if (error)
+    if (error) {
         return (
-            <div className={`min-h-screen ${theme.background} ${theme.text} flex items-center justify-center`}>
-                <p className="text-red-600">Error: {error}</p>
+            <div className={`min-h-screen flex items-center justify-center ${theme.background} ${theme.text}`}>
+                <div className="text-center space-y-4">
+                    <p className="text-red-600 font-semibold">Error: {error}</p>
+                    <a
+                        href="/"
+                        className="inline-block bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
+                    >
+                        Return to Home
+                    </a>
+                </div>
             </div>
         );
+    }
 
-    if (!user)
+    if (!user) {
         return (
-            <div className={`min-h-screen ${theme.background} ${theme.text} flex items-center justify-center`}>
-                <p className="text-[#0B1D51]">User not found</p>
+            <div className={`min-h-screen flex items-center justify-center ${theme.background} ${theme.text}`}>
+                <div className="text-center space-y-4">
+                    <p className="font-semibold">User not found</p>
+                    <a
+                        href="/"
+                        className="inline-block bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
+                    >
+                        Return to Home
+                    </a>
+                </div>
             </div>
         );
+    }
 
     return <ProfileCard user={user} />;
 }
