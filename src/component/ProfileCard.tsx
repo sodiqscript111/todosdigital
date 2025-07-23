@@ -122,7 +122,7 @@ export default function ProfileCard({ user }: ProfileCardProps) {
 
                 {/* Footer */}
                 <div className="mt-8 text-center text-xs text-[#B6B09F]">
-                    Powered by Todos Digitals
+                    Powered by TodosDigitals
                 </div>
             </div>
         </section>
