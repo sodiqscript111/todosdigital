@@ -31,9 +31,10 @@ export default function Dashboard() {
     const { theme: currentTheme, setThemeByName } = useContext(ThemeContext);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const fetchProfile = async () => {
         const token = localStorage.getItem('auth_token');
         const userId = localStorage.getItem('user_id');
 
@@ -42,39 +43,63 @@ export default function Dashboard() {
             return;
         }
 
-        axios
-            .get(`https://tododigitals.azurewebsites.net/profile`, {
+        try {
+            setLoading(true);
+            const res = await axios.get(`https://tododigitals.azurewebsites.net/profile`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-            })
-            .then((res) => {
-                setProfile(res.data);
-                if (res.data.theme) {
-                    setThemeByName(res.data.theme); // Sync with backend theme
-                }
-            })
-            .catch(() => {
-                setProfile(null);
-            })
-            .finally(() => {
-                setLoading(false);
             });
+            setProfile(res.data);
+            if (res.data.theme && themes[res.data.theme]) {
+                setThemeByName(res.data.theme); // Sync with backend theme
+            }
+        } catch (err) {
+            setProfile(null);
+            setError('Failed to fetch profile data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchProfile();
     }, [navigate, setThemeByName]);
 
     const handleThemeChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newTheme = e.target.value;
-        setThemeByName(newTheme);
+
+        // Validate theme
+        if (!themes[newTheme]) {
+            setError('Invalid theme selected');
+            return;
+        }
+
+        setThemeByName(newTheme); // Update UI immediately
 
         try {
             const token = localStorage.getItem('auth_token');
+            if (!token) {
+                setError('Authentication token missing. Please log in again.');
+                navigate('/login');
+                return;
+            }
+
             await axios.patch(
                 'https://tododigitals.azurewebsites.net/api/profile/theme',
                 { theme: newTheme },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-        } catch (err) {
-            console.error('Failed to update theme:', err);
+            setError(null);
+            // Refetch profile to ensure UI reflects backend state
+            await fetchProfile();
+        } catch (err: any) {
+            console.error('Failed to update theme:', err.response?.data || err.message);
+            setError(`Failed to save theme: ${err.response?.data?.message || err.message}`);
+            // Revert to previous theme if available
+            if (profile?.theme && themes[profile.theme]) {
+                setThemeByName(profile.theme);
+            }
         }
     };
 
@@ -97,6 +122,23 @@ export default function Dashboard() {
                         className="bg-[#FFF1D5] text-[#0B1D51] px-6 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
                     >
                         Create Profile
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className={`min-h-screen flex items-center justify-center p-6 ${currentTheme.background} ${currentTheme.text}`}>
+                <div className="text-center space-y-4">
+                    <h1 className="text-2xl font-bold text-red-600">Error</h1>
+                    <p className="text-[#0B1D51]">{error}</p>
+                    <button
+                        onClick={() => navigate('/')}
+                        className="bg-[#FFF1D5] text-[#0B1D51] px-6 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
+                    >
+                        Return to Home
                     </button>
                 </div>
             </div>
