@@ -7,11 +7,11 @@ interface ThemeType {
 }
 
 export const themes: Record<string, ThemeType> = {
-    light: { name: 'light', background: 'bg-white', text: 'text-black' },
-    dark: { name: 'dark', background: 'bg-black', text: 'text-white' },
-    ocean: { name: 'ocean', background: 'bg-blue-900', text: 'text-white' },
-    forest: { name: 'forest', background: 'bg-green-900', text: 'text-white' },
-    peach: { name: 'peach', background: 'bg-orange-100', text: 'text-orange-900' },
+    light: { name: 'light', background: 'bg-[#FFF1D5]', text: 'text-[#0B1D51]' },
+    dark: { name: 'dark', background: 'bg-black', text: 'text-[#FFF1D5]' },
+    ocean: { name: 'ocean', background: 'bg-[#0B1D51]', text: 'text-[#E7EFC7]' },
+    forest: { name: 'forest', background: 'bg-[#B6B09F]', text: 'text-[#0B1D51]' },
+    peach: { name: 'peach', background: 'bg-[#E7EFC7]', text: 'text-[#0B1D51]' },
 };
 
 export interface ThemeContextType {

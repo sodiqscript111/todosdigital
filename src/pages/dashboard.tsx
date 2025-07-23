@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useContext } from 'react';
-import { ThemeContext } from "../theme/ThemeContext.tsx"
+import { ThemeContext, themes } from '../theme/ThemeContext';
 
 interface SocialLinks {
     linkedin?: string;
@@ -23,7 +23,7 @@ interface UserProfile {
     email: string;
     image_url: string;
     slug: string;
-    theme: string; // Added theme
+    theme: string;
     profile_links: SocialLinks;
 }
 
@@ -80,7 +80,7 @@ export default function Dashboard() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
+            <div className={`min-h-screen flex items-center justify-center ${currentTheme.background} ${currentTheme.text}`}>
                 <p>Loading your dashboard...</p>
             </div>
         );
@@ -88,13 +88,13 @@ export default function Dashboard() {
 
     if (!profile) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-6">
+            <div className={`min-h-screen flex items-center justify-center p-6 ${currentTheme.background} ${currentTheme.text}`}>
                 <div className="text-center space-y-4">
-                    <h1 className="text-2xl font-bold">No profile found</h1>
-                    <p className="text-gray-400">You haven't set up your digital business card yet.</p>
+                    <h1 className="text-2xl font-bold text-[#0B1D51]">No profile found</h1>
+                    <p className="text-[#B6B09F]">You haven't set up your digital business card yet.</p>
                     <button
                         onClick={() => navigate('/setup')}
-                        className="bg-white text-black px-6 py-2 rounded-md font-semibold hover:bg-gray-200 transition"
+                        className="bg-[#FFF1D5] text-[#0B1D51] px-6 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
                     >
                         Create Profile
                     </button>
@@ -107,28 +107,28 @@ export default function Dashboard() {
 
     return (
         <div className={`min-h-screen p-6 ${currentTheme.background} ${currentTheme.text} transition-colors duration-300`}>
-            <div className="max-w-3xl mx-auto bg-neutral-900 p-6 rounded-2xl border border-neutral-700 shadow-lg">
+            <div className="max-w-3xl mx-auto bg-[#FFF1D5] p-6 rounded-2xl border border-[#B6B09F] shadow-lg">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold">Your Profile</h1>
+                    <h1 className="text-2xl font-bold text-[#0B1D51]">Your Profile</h1>
                     <button
                         onClick={() => navigate(`/edit-profile`)}
-                        className="bg-white text-black px-4 py-2 rounded-md text-sm font-semibold hover:bg-gray-200 transition"
+                        className="bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#E7EFC7] transition"
                     >
                         Edit
                     </button>
                 </div>
 
                 <div className="mb-6">
-                    <label htmlFor="theme-select" className="block text-sm mb-1 font-semibold">
+                    <label htmlFor="theme-select" className="block text-sm mb-1 font-semibold text-[#0B1D51]">
                         Select Theme:
                     </label>
                     <select
                         id="theme-select"
-                        className="bg-neutral-800 border border-neutral-600 rounded-md px-3 py-2"
+                        className="bg-[#E7EFC7] border border-[#B6B09F] rounded-md px-3 py-2 text-[#0B1D51] focus:ring-[#0B1D51] focus:border-[#0B1D51]"
                         value={currentTheme.name}
                         onChange={handleThemeChange}
                     >
-                        {['light', 'dark', 'ocean', 'forest', 'peach'].map((key) => (
+                        {Object.keys(themes).map((key) => (
                             <option key={key} value={key}>
                                 {key.charAt(0).toUpperCase() + key.slice(1)}
                             </option>
@@ -140,17 +140,17 @@ export default function Dashboard() {
                     <img
                         src={profile.image_url}
                         alt={`${profile.full_name}'s profile picture`}
-                        className="w-40 h-40 rounded-xl object-cover border border-neutral-700"
+                        className="w-40 h-40 rounded-xl object-cover border border-[#B6B09F]"
                     />
 
                     <div className="flex-1">
-                        <h2 className="text-xl font-semibold">{profile.full_name}</h2>
-                        <p className="text-gray-400">{profile.headline}</p>
-                        <p className="text-sm mt-2">{profile.company}</p>
-                        <p className="text-sm text-gray-500 mt-1">{profile.email}</p>
+                        <h2 className="text-xl font-semibold text-[#0B1D51]">{profile.full_name}</h2>
+                        <p className="text-[#B6B09F]">{profile.headline}</p>
+                        <p className="text-sm mt-2 text-[#0B1D51]">{profile.company}</p>
+                        <p className="text-sm text-[#B6B09F] mt-1">{profile.email}</p>
 
                         <div className="mt-4 space-y-1">
-                            <h3 className="text-base font-medium">Social Links:</h3>
+                            <h3 className="text-base font-medium text-[#0B1D51]">Social Links:</h3>
                             {socialMediaLinks.length > 0 ? (
                                 <ul className="space-y-1 list-disc list-inside text-sm">
                                     {socialMediaLinks.map(([key, value]) => (
@@ -159,7 +159,7 @@ export default function Dashboard() {
                                                 href={value}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-blue-400 underline"
+                                                className="text-[#0B1D51] hover:underline"
                                             >
                                                 {key.charAt(0).toUpperCase() + key.slice(1)}
                                             </a>
@@ -167,7 +167,7 @@ export default function Dashboard() {
                                     ))}
                                 </ul>
                             ) : (
-                                <p className="text-gray-500">No links provided.</p>
+                                <p className="text-[#B6B09F]">No links provided.</p>
                             )}
                         </div>
 
@@ -176,7 +176,7 @@ export default function Dashboard() {
                                 href={`https://www.todosdigitals.com/u/${profile.slug}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-block bg-white text-black px-4 py-2 rounded-md text-sm font-semibold hover:bg-gray-200 transition"
+                                className="inline-block bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#E7EFC7] transition"
                             >
                                 View Public Profile
                             </a>

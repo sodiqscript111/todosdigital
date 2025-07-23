@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ThemeContext, themes } from '../theme/ThemeContext';
 
 export default function SetupPage() {
     const navigate = useNavigate();
+    const { theme } = useContext(ThemeContext);
     const [formData, setFormData] = useState({
         full_name: '',
         headline: '',
@@ -110,11 +112,11 @@ export default function SetupPage() {
     };
 
     return (
-        <div className="min-h-screen bg-black flex items-center justify-center p-4">
-            <div className="bg-black border border-neutral-800 rounded-2xl p-6 max-w-md w-full text-white shadow-xl">
-                <h1 className="text-2xl font-bold text-center mb-6">Create Profile</h1>
+        <div className={`min-h-screen ${theme.background} ${theme.text} flex items-center justify-center p-4`}>
+            <div className="bg-[#FFF1D5] border border-[#B6B09F] rounded-2xl p-6 max-w-md w-full shadow-xl">
+                <h1 className="text-2xl font-bold text-center mb-6 text-[#0B1D51]">Create Profile</h1>
 
-                {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+                {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <SimpleInput name="full_name" label="Full Name *" value={formData.full_name} onChange={handleChange} />
@@ -122,17 +124,17 @@ export default function SetupPage() {
                     <SimpleInput name="company" label="Company *" value={formData.company} onChange={handleChange} />
 
                     <div>
-                        <label htmlFor="theme" className="block text-sm text-gray-400 mb-1">Theme *</label>
+                        <label htmlFor="theme" className="block text-sm text-[#0B1D51] mb-1">Theme *</label>
                         <select
                             id="theme"
                             name="theme"
                             value={formData.theme}
                             onChange={handleChange}
-                            className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700"
+                            className="w-full p-2 bg-[#E7EFC7] rounded-md text-[#0B1D51] border border-[#B6B09F] focus:ring-[#0B1D51] focus:border-[#0B1D51]"
                             required
                         >
                             <option value="" disabled>Select a theme</option>
-                            {['light', 'dark', 'ocean', 'forest', 'peach'].map((theme) => (
+                            {Object.keys(themes).map((theme) => (
                                 <option key={theme} value={theme}>
                                     {theme.charAt(0).toUpperCase() + theme.slice(1)}
                                 </option>
@@ -141,13 +143,13 @@ export default function SetupPage() {
                     </div>
 
                     <div>
-                        <label htmlFor="image" className="block text-sm text-gray-400 mb-1">Profile Image *</label>
+                        <label htmlFor="image" className="block text-sm text-[#0B1D51] mb-1">Profile Image *</label>
                         <input
                             id="image"
                             type="file"
                             accept="image/*"
                             onChange={handleImageChange}
-                            className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700"
+                            className="w-full p-2 bg-[#E7EFC7] rounded-md text-[#0B1D51] border border-[#B6B09F] file:bg-[#FFF1D5] file:border-0 file:rounded-md file:text-[#0B1D51] file:cursor-pointer"
                             required
                         />
                     </div>
@@ -165,7 +167,7 @@ export default function SetupPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-white text-black font-semibold py-2 px-4 rounded-md hover:bg-gray-200 disabled:opacity-50"
+                        className="w-full bg-[#FFF1D5] text-[#0B1D51] font-semibold py-2 px-4 rounded-md hover:bg-[#E7EFC7] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {loading ? 'Creating...' : 'Create Profile'}
                     </button>
@@ -190,14 +192,14 @@ function SimpleInput({
 }) {
     return (
         <div>
-            <label htmlFor={name} className="block text-sm text-gray-400 mb-1">{label}</label>
+            <label htmlFor={name} className="block text-sm text-[#0B1D51] mb-1">{label}</label>
             <input
                 type={type}
                 id={name}
                 name={name}
                 value={value}
                 onChange={onChange}
-                className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700"
+                className="w-full p-2 bg-[#E7EFC7] rounded-md text-[#0B1D51] border border-[#B6B09F] focus:ring-[#0B1D51] focus:border-[#0B1D51]"
             />
         </div>
     );

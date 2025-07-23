@@ -6,11 +6,11 @@ export default function ThemeSwitcher() {
 
     return (
         <div className="p-4">
-            <label className="block mb-2 font-bold">Choose Theme:</label>
+            <label className="block mb-2 font-bold text-[#0B1D51]">Choose Theme:</label>
             <select
                 value={theme.name}
                 onChange={(e) => setThemeByName(e.target.value)}
-                className="border px-4 py-2 rounded bg-neutral-800 border-neutral-600 text-white"
+                className="border px-4 py-2 rounded-lg bg-[#FFF1D5] text-[#0B1D51] border-[#B6B09F] focus:ring-[#0B1D51] focus:border-[#0B1D51]"
             >
                 {Object.keys(themes).map((name) => (
                     <option key={name} value={name}>

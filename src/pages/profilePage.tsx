@@ -1,14 +1,19 @@
-// src/ProfilePage.tsx
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import ProfileCard from '../component/ProfileCard.tsx';
+import { useContext } from 'react';
+import { ThemeContext } from '../theme/ThemeContext';
+import ProfileCard from '../component/ProfileCard';
 
 interface SocialLinks {
     linkedin?: string | null;
     github?: string | null;
     twitter?: string | null;
     website?: string | null;
+    facebook?: string | null;
+    instagram?: string | null;
+    youtube?: string | null;
+    tiktok?: string | null;
 }
 
 interface User {
@@ -26,6 +31,7 @@ export default function ProfilePage() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const { theme } = useContext(ThemeContext);
 
     // Hardcoded Azure Web App backend URL
     const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
@@ -54,22 +60,22 @@ export default function ProfilePage() {
 
     if (loading)
         return (
-            <div className="min-h-screen bg-black text-white flex items-center justify-center">
-                Loading...
+            <div className={`min-h-screen ${theme.background} ${theme.text} flex items-center justify-center`}>
+                <p className="text-[#0B1D51]">Loading...</p>
             </div>
         );
 
     if (error)
         return (
-            <div className="min-h-screen bg-black text-white flex items-center justify-center">
-                Error: {error}
+            <div className={`min-h-screen ${theme.background} ${theme.text} flex items-center justify-center`}>
+                <p className="text-red-600">Error: {error}</p>
             </div>
         );
 
     if (!user)
         return (
-            <div className="min-h-screen bg-black text-white flex items-center justify-center">
-                User not found
+            <div className={`min-h-screen ${theme.background} ${theme.text} flex items-center justify-center`}>
+                <p className="text-[#0B1D51]">User not found</p>
             </div>
         );
 
