@@ -134,8 +134,8 @@ export default function ProfileCard({ user }: ProfileCardProps) {
 
                 {/* Social Links */}
                 <div className="mt-6">
-                    <p className="text-xs text-gray-400 mb-2">CONNECT</p>
-                    <ul className="space-y-2">
+                    <p className="text-xs text-[#B6B09F] mb-4 uppercase tracking-widest">Connect</p>
+                    <ul className="grid grid-cols-3 gap-4">
                         {links
                             .filter((link) => validUrl(link.url))
                             .map(({ label, icon, url }) => (
@@ -144,9 +144,10 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                                         href={url!}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 px-4 py-2 rounded bg-neutral-900 hover:bg-neutral-800 transition"
+                                        className="flex flex-col items-center justify-center px-4 py-5 rounded-lg bg-[#E7EFC7] text-[#0B1D51] hover:bg-[#FFF1D5] transition"
                                     >
-                                        {icon} <span>{label}</span>
+                                        <div className="text-3xl mb-1">{icon}</div>
+                                        <span className="text-xs font-medium">{label}</span>
                                     </a>
                                 </li>
                             ))}
