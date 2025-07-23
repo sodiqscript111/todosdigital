@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ export default function Navbar() {
     const [userName, setUserName] = useState<string | null>(null);
     const [slug, setSlug] = useState<string | null>(null);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
@@ -31,28 +32,10 @@ export default function Navbar() {
         }
     }, []);
 
-    const renderButton = () => {
-        if (userName && slug) {
-            return (
-                <button
-                    onClick={() => navigate(`/u/${slug}`)}
-                    className="ml-4 bg-black text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-sm hover:bg-gray-800 transition"
-                    title="Go to Profile"
-                >
-                    {userName.charAt(0).toUpperCase()}
-                </button>
-            );
-        } else {
-            return (
-                <Link
-                    to="/register"
-                    className="ml-4 bg-black text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-gray-800 transition"
-                >
-                    Sign Up for Business Card
-                </Link>
-            );
-        }
-    };
+    // Close mobile menu on route change
+    useEffect(() => {
+        setIsOpen(false);
+    }, [location.pathname]);
 
     return (
         <nav className="sticky top-0 z-50 bg-white text-black shadow-md">
@@ -68,31 +51,40 @@ export default function Navbar() {
                     </Link>
 
                     {/* Desktop Menu */}
-                    <div className="hidden md:flex space-x-6 items-center">
-                        <Link to="/all-services" className="hover:text-gray-700 text-base font-medium">
+                    <div className="hidden md:flex space-x-6 items-center text-base font-medium">
+                        <Link to="/all-services" className="hover:text-gray-700">
                             Our Services
                         </Link>
-                        <Link to="/about" className="hover:text-gray-700 text-base font-medium">
+                        <Link to="/about" className="hover:text-gray-700">
                             About Us
                         </Link>
-                        <Link to="/products" className="hover:text-gray-700 text-base font-medium">
+                        <Link to="/products" className="hover:text-gray-700">
                             All Products
                         </Link>
-                        <Link to="/ourwork" className="hover:text-gray-700 text-base font-medium">
+                        <Link to="/ourwork" className="hover:text-gray-700">
                             Our Work
                         </Link>
-                        <Link
-                            to="/contact"
-                            className="ml-4 bg-black text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-gray-800 transition"
-                        >
+                        <Link to="/contact" className="hover:text-gray-700">
                             Contact Us
                         </Link>
-                        {renderButton()}
+                        {userName && slug ? (
+                            <Link to={`/u/${slug}`} className="hover:text-gray-700">
+                                {userName}
+                            </Link>
+                        ) : (
+                            <Link to="/register" className="hover:text-gray-700">
+                                Sign Up for Business Card
+                            </Link>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
                     <div className="md:hidden">
-                        <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="focus:outline-none"
+                            aria-label="Toggle menu"
+                        >
                             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>
                     </div>
@@ -101,37 +93,28 @@ export default function Navbar() {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden bg-white border-t border-gray-200 px-4 pt-4 pb-6 space-y-3">
-                    <Link to="/all-services" className="block text-base font-medium text-black">
+                <div className="md:hidden bg-white border-t border-gray-200 px-4 pt-4 pb-6 space-y-3 text-base font-medium">
+                    <Link to="/all-services" className="block text-black hover:text-gray-700">
                         Our Services
                     </Link>
-                    <Link to="/about" className="block text-base font-medium text-black">
+                    <Link to="/about" className="block text-black hover:text-gray-700">
                         About Us
                     </Link>
-                    <Link to="/products" className="block text-base font-medium text-black">
+                    <Link to="/products" className="block text-black hover:text-gray-700">
                         All Products
                     </Link>
-                    <Link to="/ourwork" className="block text-base font-medium text-black">
+                    <Link to="/ourwork" className="block text-black hover:text-gray-700">
                         Our Work
                     </Link>
-                    <Link
-                        to="/contact"
-                        className="block w-full text-center bg-black text-white py-2 rounded-full font-semibold"
-                    >
+                    <Link to="/contact" className="block text-black hover:text-gray-700">
                         Contact Us
                     </Link>
                     {userName && slug ? (
-                        <Link
-                            to={`/u/${slug}`}
-                            className="block w-full text-center bg-black text-white py-2 rounded-full font-semibold"
-                        >
-                            My Profile
+                        <Link to={`/u/${slug}`} className="block text-black hover:text-gray-700">
+                            {userName}
                         </Link>
                     ) : (
-                        <Link
-                            to="/register"
-                            className="block w-full text-center bg-black text-white py-2 rounded-full font-semibold"
-                        >
+                        <Link to="/register" className="block text-black hover:text-gray-700">
                             Sign Up for Business Card
                         </Link>
                     )}

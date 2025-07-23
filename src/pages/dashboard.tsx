@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useContext } from 'react';
+import { ThemeContext } from "../theme/ThemeContext.tsx"
 
 interface SocialLinks {
     linkedin?: string;
@@ -21,10 +23,12 @@ interface UserProfile {
     email: string;
     image_url: string;
     slug: string;
+    theme: string; // Added theme
     profile_links: SocialLinks;
 }
 
 export default function Dashboard() {
+    const { theme: currentTheme, setThemeByName } = useContext(ThemeContext);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -46,28 +50,45 @@ export default function Dashboard() {
             })
             .then((res) => {
                 setProfile(res.data);
+                if (res.data.theme) {
+                    setThemeByName(res.data.theme); // Sync with backend theme
+                }
             })
             .catch(() => {
-                // No profile exists
                 setProfile(null);
             })
             .finally(() => {
                 setLoading(false);
             });
-    }, [navigate]);
+    }, [navigate, setThemeByName]);
+
+    const handleThemeChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newTheme = e.target.value;
+        setThemeByName(newTheme);
+
+        try {
+            const token = localStorage.getItem('auth_token');
+            await axios.patch(
+                'https://tododigitals.azurewebsites.net/api/profile/theme',
+                { theme: newTheme },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+        } catch (err) {
+            console.error('Failed to update theme:', err);
+        }
+    };
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-black text-white">
+            <div className="min-h-screen flex items-center justify-center">
                 <p>Loading your dashboard...</p>
             </div>
         );
     }
 
-    // If no profile, show setup button
     if (!profile) {
         return (
-            <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
+            <div className="min-h-screen flex items-center justify-center p-6">
                 <div className="text-center space-y-4">
                     <h1 className="text-2xl font-bold">No profile found</h1>
                     <p className="text-gray-400">You haven't set up your digital business card yet.</p>
@@ -85,7 +106,7 @@ export default function Dashboard() {
     const socialMediaLinks = Object.entries(profile.profile_links || {}).filter(([_, value]) => value);
 
     return (
-        <div className="min-h-screen bg-black text-white p-6">
+        <div className={`min-h-screen p-6 ${currentTheme.background} ${currentTheme.text} transition-colors duration-300`}>
             <div className="max-w-3xl mx-auto bg-neutral-900 p-6 rounded-2xl border border-neutral-700 shadow-lg">
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-2xl font-bold">Your Profile</h1>
@@ -97,10 +118,28 @@ export default function Dashboard() {
                     </button>
                 </div>
 
+                <div className="mb-6">
+                    <label htmlFor="theme-select" className="block text-sm mb-1 font-semibold">
+                        Select Theme:
+                    </label>
+                    <select
+                        id="theme-select"
+                        className="bg-neutral-800 border border-neutral-600 rounded-md px-3 py-2"
+                        value={currentTheme.name}
+                        onChange={handleThemeChange}
+                    >
+                        {['light', 'dark', 'ocean', 'forest', 'peach'].map((key) => (
+                            <option key={key} value={key}>
+                                {key.charAt(0).toUpperCase() + key.slice(1)}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
                     <img
                         src={profile.image_url}
-                        alt={profile.full_name}
+                        alt={`${profile.full_name}'s profile picture`}
                         className="w-40 h-40 rounded-xl object-cover border border-neutral-700"
                     />
 

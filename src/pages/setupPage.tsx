@@ -8,8 +8,8 @@ export default function SetupPage() {
         full_name: '',
         headline: '',
         company: '',
-        email: '',
         image_url: '',
+        theme: '',
         profile_links: {
             linkedin: '',
             github: '',
@@ -26,7 +26,7 @@ export default function SetupPage() {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
 
         if (name.startsWith('profile_links.')) {
@@ -60,6 +60,12 @@ export default function SetupPage() {
         try {
             if (!imageFile) {
                 setError('Please select a profile image.');
+                setLoading(false);
+                return;
+            }
+
+            if (!formData.theme) {
+                setError('Please select a theme.');
                 setLoading(false);
                 return;
             }
@@ -114,7 +120,25 @@ export default function SetupPage() {
                     <SimpleInput name="full_name" label="Full Name *" value={formData.full_name} onChange={handleChange} />
                     <SimpleInput name="headline" label="Headline *" value={formData.headline} onChange={handleChange} />
                     <SimpleInput name="company" label="Company *" value={formData.company} onChange={handleChange} />
-                    <SimpleInput name="email" label="Email *" type="email" value={formData.email} onChange={handleChange} />
+
+                    <div>
+                        <label htmlFor="theme" className="block text-sm text-gray-400 mb-1">Theme *</label>
+                        <select
+                            id="theme"
+                            name="theme"
+                            value={formData.theme}
+                            onChange={handleChange}
+                            className="w-full p-2 bg-neutral-900 rounded-md text-white border border-neutral-700"
+                            required
+                        >
+                            <option value="" disabled>Select a theme</option>
+                            {['light', 'dark', 'ocean', 'forest', 'peach'].map((theme) => (
+                                <option key={theme} value={theme}>
+                                    {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
                     <div>
                         <label htmlFor="image" className="block text-sm text-gray-400 mb-1">Profile Image *</label>
