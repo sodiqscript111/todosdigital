@@ -7,37 +7,38 @@ interface ThemeType {
 }
 
 export const themes: Record<string, ThemeType> = {
-    // Clean and modern light theme
+    // Light: Neutral and modern (Apple/Notion-style)
     light: {
         name: 'light',
-        background: 'bg-[#F8F9FA]', // off-white
-        text: 'text-[#111827]', // dark grayish navy
+        background: 'bg-[#F4F4F5]', // soft gray-white
+        text: 'text-[#1A1A1A]',     // near-black
     },
-    // Sleek high-contrast dark theme
+    // Dark: Clean and elegant
     dark: {
         name: 'dark',
-        background: 'bg-[#0F172A]', // deep slate
-        text: 'text-[#F8FAFC]', // off-white
+        background: 'bg-[#0D1117]', // GitHub dark mode vibe
+        text: 'text-[#E6EDF3]',     // soft light blue-gray
     },
-    // Calm and professional blue
+    // Ocean: Vibrant yet professional
     ocean: {
         name: 'ocean',
-        background: 'bg-[#1E3A8A]', // bold blue (tailwind blue-800)
+        background: 'bg-[#0E7490]', // Tailwind cyan-700
         text: 'text-white',
     },
-    // Earthy and elegant
+    // Forest: Subdued and premium green
     forest: {
         name: 'forest',
-        background: 'bg-[#2F3E46]', // desaturated forest green
-        text: 'text-[#EDF6F9]', // soft pastel blue
+        background: 'bg-[#1B4332]', // dark forest green
+        text: 'text-[#D8F3DC]',     // minty soft green
     },
-    // Soft pastel for a gentle mood
+    // Peach: Stylish and soft (but readable)
     peach: {
         name: 'peach',
-        background: 'bg-[#FFE5B4]', // soft peach
-        text: 'text-[#3B3B3B]', // dark gray for readability
+        background: 'bg-[#FFF1E6]', // pastel peach
+        text: 'text-[#4B3832]',     // warm brownish black
     },
 };
+
 
 export interface ThemeContextType {
     theme: ThemeType;
