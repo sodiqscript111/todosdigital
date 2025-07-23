@@ -44,57 +44,89 @@ export default function ProfileCard({ user }: ProfileCardProps) {
     const { theme } = useContext(ThemeContext);
 
     const links = [
-        { label: 'LinkedIn', icon: <FaLinkedin className="h-5 w-5" />, url: user.profile_links?.linkedin },
-        { label: 'GitHub', icon: <FaGithub className="h-5 w-5" />, url: user.profile_links?.github },
-        { label: 'Twitter', icon: <FaTwitter className="h-5 w-5" />, url: user.profile_links?.twitter },
-        { label: 'Website', icon: <GlobeAltIcon className="h-5 w-5" />, url: user.profile_links?.website },
-        { label: 'Facebook', icon: <FaFacebook className="h-5 w-5" />, url: user.profile_links?.facebook },
-        { label: 'Instagram', icon: <FaInstagram className="h-5 w-5" />, url: user.profile_links?.instagram },
-        { label: 'YouTube', icon: <FaYoutube className="h-5 w-5" />, url: user.profile_links?.youtube },
-        { label: 'TikTok', icon: <FaTiktok className="h-5 w-5" />, url: user.profile_links?.tiktok },
+        {
+            label: 'LinkedIn',
+            icon: <FaLinkedin className="h-5 w-5" />,
+            url: user.profile_links?.linkedin,
+        },
+        {
+            label: 'GitHub',
+            icon: <FaGithub className="h-5 w-5" />,
+            url: user.profile_links?.github,
+        },
+        {
+            label: 'Twitter',
+            icon: <FaTwitter className="h-5 w-5" />,
+            url: user.profile_links?.twitter,
+        },
+        {
+            label: 'Website',
+            icon: <GlobeAltIcon className="h-5 w-5" />,
+            url: user.profile_links?.website,
+        },
+        {
+            label: 'Facebook',
+            icon: <FaFacebook className="h-5 w-5" />,
+            url: user.profile_links?.facebook,
+        },
+        {
+            label: 'Instagram',
+            icon: <FaInstagram className="h-5 w-5" />,
+            url: user.profile_links?.instagram,
+        },
+        {
+            label: 'YouTube',
+            icon: <FaYoutube className="h-5 w-5" />,
+            url: user.profile_links?.youtube,
+        },
+        {
+            label: 'TikTok',
+            icon: <FaTiktok className="h-5 w-5" />,
+            url: user.profile_links?.tiktok,
+        },
     ];
 
     const validUrl = (url: string | null | undefined): string | null => {
         if (!url) return null;
         const urlRegex = /^(https?:\/\/)/;
-        return urlRegex.test(url) ? url : `https://${url}`;
+        return urlRegex.test(url) ? url : null;
     };
 
     return (
-        <section
-            className={`max-w-md mx-auto ${theme.background} ${theme.text} rounded-2xl shadow-lg overflow-hidden flex flex-col h-[600px]`}
-        >
+        <section className={`w-screen h-screen ${theme.background} ${theme.text} flex flex-col font-sans`}>
             {/* Profile Image */}
             <div className="w-full h-1/2">
                 <img
                     src={user.image_url}
                     alt={`${user.full_name}'s profile picture`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-b-2xl"
                 />
             </div>
 
             {/* Info Section */}
-            <div className="p-6 flex flex-col justify-between flex-1">
-                {/* Name and Headline */}
-                <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-wide text-[#0B1D51]">
-                        {user.full_name}
-                    </h1>
-                    <p className="text-lg text-[#B6B09F] italic">
-                        {user.headline}
-                        {user.company && (
-                            <span className="not-italic text-[#B6B09F]"> at {user.company}</span>
-                        )}
-                    </p>
-                    <p className="text-sm text-[#B6B09F]">{user.email}</p>
-                </div>
+            <div className="flex-1 px-6 pt-4 pb-6 flex flex-col gap-4 overflow-y-auto">
+                {/* Name */}
+                <h1
+                    className="text-3xl md:text-4xl font-bold tracking-wide"
+                    style={{ fontFamily: "'Rajdhani', sans-serif" }}
+                >
+                    {user.full_name}
+                </h1>
+
+                {/* Headline */}
+                <p className="text-[27px] text-gray-200 italic">
+                    {user.headline}
+                    {user.company && (
+                        <span className="not-italic text-gray-400"> at {user.company}</span>
+                    )}
+                </p>
 
                 {/* Save Contact */}
                 <a
                     href={`${API_BASE_URL}/api/users/${user.slug}/vcard`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-block w-full bg-[#FFF1D5] text-[#0B1D51] font-semibold py-2 px-4 rounded-md text-center hover:bg-[#E7EFC7] transition"
+                    className="mt-3 inline-block w-max bg-white text-black font-semibold py-2 px-4 rounded hover:bg-gray-200 transition"
                     aria-label={`Download vCard for ${user.full_name}`}
                 >
                     📁 Save Contact
@@ -102,20 +134,19 @@ export default function ProfileCard({ user }: ProfileCardProps) {
 
                 {/* Social Links */}
                 <div className="mt-6">
-                    <p className="text-xs text-[#B6B09F] mb-2 uppercase">Connect</p>
+                    <p className="text-xs text-gray-400 mb-2">CONNECT</p>
                     <ul className="space-y-2">
                         {links
                             .filter((link) => validUrl(link.url))
                             .map(({ label, icon, url }) => (
                                 <li key={label}>
                                     <a
-                                        href={validUrl(url)!}
+                                        href={url!}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-3 px-4 py-2 rounded-md bg-[#E7EFC7] text-[#0B1D51] hover:bg-[#FFF1D5] transition-all duration-200"
+                                        className="flex items-center gap-2 px-4 py-2 rounded bg-neutral-900 hover:bg-neutral-800 transition"
                                     >
-                                        {icon}
-                                        <span className="text-sm font-medium">{label}</span>
+                                        {icon} <span>{label}</span>
                                     </a>
                                 </li>
                             ))}
@@ -123,8 +154,8 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-6 text-center text-xs text-[#B6B09F]">
-                    Powered by Todos Digitals
+                <div className="mt-8 text-center text-gray-500 text-xs">
+                    Powered by todosdigitals.
                 </div>
             </div>
         </section>
