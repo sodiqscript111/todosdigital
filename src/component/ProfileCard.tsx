@@ -30,6 +30,9 @@ interface User {
     company: string;
     email: string;
     image_url: string;
+    header_image_url: string;
+    address: string;
+    bio: string;
     slug: string;
     profile_links?: SocialLinks;
 }
@@ -61,48 +64,82 @@ export default function ProfileCard({ user }: ProfileCardProps) {
     };
 
     return (
-        <section className={`max-w-4xl mx-auto h-screen ${theme.background} ${theme.text} flex flex-col font-sans`}>
-            {/* Profile Image */}
-            <div className="w-full h-1/2">
+        <section className={`max-w-4xl mx-auto h-screen ${theme.background} ${theme.text} flex flex-col font-sans`} style={{ fontFamily: 'Arial, Helvetica, sans-serif' }}>
+            {/* Header Image (Cover Photo) */}
+            <div className="w-full h-1/3 bg-gray-200">
+                {user.header_image_url ? (
+                    <img
+                        src={user.header_image_url}
+                        alt={`${user.full_name}'s cover photo`}
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-[#3b5998]" />
+                )}
+            </div>
+
+            {/* Profile Image (Overlaying Header) */}
+            <div className="relative -mt-20 px-6">
                 <img
                     src={user.image_url}
                     alt={`${user.full_name}'s profile picture`}
-                    className="w-full h-full object-cover rounded-b-2xl"
+                    className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-white shadow-md"
                 />
             </div>
 
             {/* Info Section */}
-            <div className="flex-1 px-6 pt-6 pb-8 flex flex-col gap-6 overflow-y-auto">
-                {/* Name */}
-                <h1
-                    className="text-3xl md:text-4xl font-bold tracking-wide"
-                    style={{ fontFamily: "'Rajdhani', sans-serif" }}
-                >
-                    {user.full_name}
-                </h1>
+            <div className="flex-1 px-6 pt-4 pb-8 flex flex-col gap-6 bg-white">
+                {/* Name and Headline */}
+                <div>
+                    <h1 className="text-3xl md:text-4xl font-bold text-[#3b5998]">
+                        {user.full_name}
+                    </h1>
+                    <p className="text-xl md:text-2xl text-gray-600 italic mt-1">
+                        {user.headline}
+                        {user.company && (
+                            <span className="not-italic text-gray-600"> at {user.company}</span>
+                        )}
+                    </p>
+                </div>
 
-                {/* Headline */}
-                <p className="text-2xl md:text-3xl text-[#B6B09F] italic">
-                    {user.headline}
-                    {user.company && (
-                        <span className="not-italic text-[#B6B09F]"> at {user.company}</span>
-                    )}
-                </p>
+                {/* About Section */}
+                {(user.email || user.address || user.bio) && (
+                    <div className="border-t border-gray-200 pt-4">
+                        <h2 className="text-lg font-semibold text-[#3b5998] mb-2">About</h2>
+                        <div className="space-y-2 text-gray-700 text-base">
+                            {user.email && (
+                                <p>
+                                    <span className="font-medium">Email:</span> {user.email}
+                                </p>
+                            )}
+                            {user.address && (
+                                <p>
+                                    <span className="font-medium">Address:</span> {user.address}
+                                </p>
+                            )}
+                            {user.bio && (
+                                <p>
+                                    <span className="font-medium">Bio:</span> {user.bio}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 {/* Save Contact */}
                 <a
                     href={`${API_BASE_URL}/api/users/${user.slug}/vcard`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-4 inline-block w-max bg-[#FFF1D5] text-[#0B1D51] font-semibold py-2 px-6 rounded-md hover:bg-[#E7EFC7] transition"
+                    className="inline-block w-max bg-[#3b5998] text-white font-semibold py-2 px-6 rounded-md hover:bg-[#4c70ba] transition"
                     aria-label={`Download vCard for ${user.full_name}`}
                 >
                     📁 Save Contact
                 </a>
 
                 {/* Social Links */}
-                <div className="mt-8">
-                    <p className="text-xs md:text-sm text-[#B6B09F] mb-3 uppercase">Connect</p>
+                <div className="mt-4">
+                    <p className="text-sm text-gray-500 mb-3 uppercase font-semibold">Connect</p>
                     <ul className="space-y-3">
                         {links
                             .filter((link) => validUrl(link.url))
@@ -112,10 +149,10 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                                         href={url!}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-3 px-5 py-2 rounded bg-[#E7EFC7] text-[#0B1D51] hover:bg-[#FFF1D5] transition"
+                                        className="flex items-center gap-3 px-5 py-2 rounded bg-[#f7f7f7] text-[#3b5998] hover:bg-[#e8ecef] transition"
                                     >
                                         {icon}
-                                        <span className="text-base md:text-lg font-medium">{label}</span>
+                                        <span className="text-base font-medium">{label}</span>
                                     </a>
                                 </li>
                             ))}
@@ -123,7 +160,7 @@ export default function ProfileCard({ user }: ProfileCardProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-10 text-center text-xs md:text-sm text-[#B6B09F]">
+                <div className="mt-10 text-center text-sm text-gray-500">
                     Powered by Todos Digitals
                 </div>
             </div>

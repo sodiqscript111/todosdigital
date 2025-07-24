@@ -21,6 +21,9 @@ interface UserProfile {
     company: string;
     email: string;
     image_url: string;
+    header_image_url: string;
+    address: string;
+    bio: string;
     slug: string;
     theme: string;
     profile_links: SocialLinks;
@@ -35,8 +38,6 @@ export default function Dashboard() {
 
     const fetchProfile = async () => {
         const token = localStorage.getItem('auth_token');
-        // userId is not used, so we won't declare it to avoid lint error
-
         if (!token) {
             navigate('/login');
             return;
@@ -173,6 +174,13 @@ export default function Dashboard() {
             className={`min-h-screen p-8 bg-black text-white transition-colors duration-300`}
         >
             <div className="max-w-3xl mx-auto bg-[#FFF1D5] p-8 rounded-2xl border border-[#B6B09F] shadow-xl">
+                {profile.header_image_url && (
+                    <img
+                        src={profile.header_image_url}
+                        alt={`${profile.full_name}'s header image`}
+                        className="w-full h-48 object-cover rounded-t-2xl border-b-2 border-[#B6B09F] mb-8"
+                    />
+                )}
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-3xl font-bold text-[#0B1D51]">Your Profile</h1>
                     <button
@@ -217,7 +225,15 @@ export default function Dashboard() {
                         </h2>
                         <p className="text-lg text-[#B6B09F] mb-2">{profile.headline}</p>
                         <p className="text-base text-[#0B1D51] mb-1">{profile.company}</p>
-                        <p className="text-base text-[#B6B09F]">{profile.email}</p>
+                        {profile.email && (
+                            <p className="text-base text-[#B6B09F] mb-1">{profile.email}</p>
+                        )}
+                        {profile.address && (
+                            <p className="text-base text-[#B6B09F] mb-1">{profile.address}</p>
+                        )}
+                        {profile.bio && (
+                            <p className="text-base text-[#B6B09F] mt-4">{profile.bio}</p>
+                        )}
 
                         <div className="mt-6 space-y-2">
                             <h3 className="text-lg font-medium text-[#0B1D51]">Social Links:</h3>
