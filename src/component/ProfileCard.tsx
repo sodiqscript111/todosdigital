@@ -95,7 +95,7 @@ export default function ProfileCard({ user }: ProfileCardProps) {
     return (
         <section className={`w-screen h-screen ${theme.background} ${theme.text} flex flex-col font-sans`}>
             {/* Profile Image */}
-            <div className="w-full h-1/3">
+            <div className="w-full h-1/2">
                 <img
                     src={user.image_url}
                     alt={`${user.full_name}'s profile picture`}
