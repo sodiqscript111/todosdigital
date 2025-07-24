@@ -50,7 +50,7 @@ export default function ProfilePage() {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get<User>(`${API_BASE_URL}/api/u/${slug}`, {
+                const response = await axios.get<User>(`${API_BASE_URL}/u/${slug}`, {
                     timeout: 30000 // 30-second timeout
                 });
                 setUser(response.data);
