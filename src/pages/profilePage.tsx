@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useContext } from 'react';
 import { ThemeContext, themes } from '../theme/ThemeContext';
-import ProfileCard from '../component/ProfileCard';
+import ProfileCard from '../component/ProfileCard'; // Verify this path
 
 interface SocialLinks {
     linkedin?: string | null;
@@ -41,46 +41,55 @@ export default function ProfilePage() {
 
     useEffect(() => {
         const fetchUser = async () => {
+            if (!slug) {
+                setError('No profile slug provided in the URL');
+                setLoading(false);
+                return;
+            }
+
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get<User>(`${API_BASE_URL}/api/users/${slug}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`,
-                    },
-                });
+                const response = await axios.get<User>(`${API_BASE_URL}/api/users/${slug}`);
                 setUser(response.data);
                 if (response.data.theme && themes[response.data.theme]) {
-                    setThemeByName(response.data.theme); // Sync with backend theme
+                    setThemeByName(response.data.theme);
                 }
                 setLoading(false);
-            } catch (err: unknown) {
-                const errorMessage =
-                    err instanceof Error
-                        ? err.message
-                        : 'Failed to fetch user data. Please try again.';
+            } catch (err) {
+                const axiosError = err as AxiosError<{ error?: string }>;
+                let errorMessage = 'Failed to fetch user data. Please try again.';
+                if (axiosError.response) {
+                    if (axiosError.response.status === 404) {
+                        errorMessage = `Profile not found for slug: ${slug}. Please check the URL or try again later.`;
+                    } else {
+                        errorMessage = axiosError.response.data?.error || `Server error: ${axiosError.response.status}`;
+                    }
+                } else if (axiosError.request) {
+                    errorMessage = 'No response from server. Please check your network connection.';
+                }
+                console.error('Profile fetch error:', {
+                    message: axiosError.message,
+                    status: axiosError.response?.status,
+                    data: axiosError.response?.data,
+                    slug,
+                });
                 setError(errorMessage);
-                console.error('Profile fetch error:', err);
                 setLoading(false);
             }
         };
 
-        if (slug) {
-            fetchUser().catch((err) => {
-                console.error('Unhandled error in fetchUser:', err);
-                setError('Unexpected error occurred. Please try again.');
-                setLoading(false);
-            });
-        } else {
-            setError('No slug provided');
+        fetchUser().catch((err) => {
+            console.error('Unhandled error in fetchUser:', err);
+            setError('Unexpected error occurred. Please try again.');
             setLoading(false);
-        }
+        });
     }, [slug, setThemeByName]);
 
     if (loading) {
         return (
             <div className={`min-h-screen flex items-center justify-center ${theme.background} ${theme.text}`}>
-                <p className="font-semibold">Loading...</p>
+                <p className="font-semibold text-[#3b5998]">Loading profile...</p>
             </div>
         );
     }
@@ -89,7 +98,7 @@ export default function ProfilePage() {
         return (
             <div className={`min-h-screen flex items-center justify-center ${theme.background} ${theme.text}`}>
                 <div className="text-center space-y-4">
-                    <p className="text-red-600 font-semibold">Error: {error}</p>
+                    <p className="text-red-600 font-semibold">{error}</p>
                     <a
                         href="/"
                         className="inline-block bg-[#3b5998] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#4c70ba] transition"
@@ -105,7 +114,7 @@ export default function ProfilePage() {
         return (
             <div className={`min-h-screen flex items-center justify-center ${theme.background} ${theme.text}`}>
                 <div className="text-center space-y-4">
-                    <p className="font-semibold">User not found</p>
+                    <p className="font-semibold text-red-600">User not found</p>
                     <a
                         href="/"
                         className="inline-block bg-[#3b5998] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#4c70ba] transition"

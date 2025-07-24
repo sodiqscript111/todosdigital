@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import type { FC } from 'react';
 import { ThemeContext } from '../theme/ThemeContext';
 import {
     GlobeAltIcon,
@@ -43,7 +44,7 @@ interface ProfileCardProps {
 
 const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
 
-export default function ProfileCard({ user }: ProfileCardProps) {
+const ProfileCard: FC<ProfileCardProps> = ({ user }) => {
     const { theme } = useContext(ThemeContext);
 
     const links = [
@@ -166,4 +167,6 @@ export default function ProfileCard({ user }: ProfileCardProps) {
             </div>
         </section>
     );
-}
+};
+
+export default ProfileCard;
