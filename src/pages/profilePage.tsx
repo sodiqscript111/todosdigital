@@ -22,8 +22,11 @@ interface User {
     company: string;
     email: string;
     image_url: string;
+    header_image_url: string;
+    address: string;
+    bio: string;
     slug: string;
-    theme?: string; // Optional theme field
+    theme?: string;
     profile_links?: SocialLinks;
 }
 
@@ -34,7 +37,6 @@ export default function ProfilePage() {
     const [error, setError] = useState<string | null>(null);
     const { theme, setThemeByName } = useContext(ThemeContext);
 
-    // Hardcoded Azure Web App backend URL
     const API_BASE_URL = 'https://tododigitals.azurewebsites.net';
 
     useEffect(() => {
@@ -42,7 +44,7 @@ export default function ProfilePage() {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get<User>(`${API_BASE_URL}/u/${slug}`, {
+                const response = await axios.get<User>(`${API_BASE_URL}/api/users/${slug}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('auth_token') || ''}`,
                     },
@@ -64,7 +66,6 @@ export default function ProfilePage() {
         };
 
         if (slug) {
-            // Explicitly handle the promise to satisfy ESLint
             fetchUser().catch((err) => {
                 console.error('Unhandled error in fetchUser:', err);
                 setError('Unexpected error occurred. Please try again.');
@@ -91,7 +92,7 @@ export default function ProfilePage() {
                     <p className="text-red-600 font-semibold">Error: {error}</p>
                     <a
                         href="/"
-                        className="inline-block bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
+                        className="inline-block bg-[#3b5998] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#4c70ba] transition"
                     >
                         Return to Home
                     </a>
@@ -107,7 +108,7 @@ export default function ProfilePage() {
                     <p className="font-semibold">User not found</p>
                     <a
                         href="/"
-                        className="inline-block bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
+                        className="inline-block bg-[#3b5998] text-white px-4 py-2 rounded-md font-semibold hover:bg-[#4c70ba] transition"
                     >
                         Return to Home
                     </a>
