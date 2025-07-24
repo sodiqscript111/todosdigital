@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { useContext } from 'react';
 import { ThemeContext, themes } from '../theme/ThemeContext';
-import ProfileCard from '../component/ProfileCard'; // Verify this path
+import ProfileCard from '../component/ProfileCard';
 
 interface SocialLinks {
     linkedin?: string | null;
@@ -50,7 +50,9 @@ export default function ProfilePage() {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get<User>(`${API_BASE_URL}/api/users/${slug}`);
+                const response = await axios.get<User>(`${API_BASE_URL}/api/users/${slug}`, {
+                    timeout: 30000 // 30-second timeout
+                });
                 setUser(response.data);
                 if (response.data.theme && themes[response.data.theme]) {
                     setThemeByName(response.data.theme);
