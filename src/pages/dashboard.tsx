@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useContext } from 'react';
+import axios, { AxiosError } from 'axios';
 import { ThemeContext, themes } from '../theme/ThemeContext';
 
 interface SocialLinks {
@@ -52,9 +51,9 @@ export default function Dashboard() {
             });
             setProfile(res.data);
             if (res.data.theme && themes[res.data.theme]) {
-                setThemeByName(res.data.theme); // Sync with backend theme
+                setThemeByName(res.data.theme);
             }
-        } catch (err) {
+        } catch {
             setProfile(null);
             setError('Failed to fetch profile data');
         } finally {
@@ -69,13 +68,12 @@ export default function Dashboard() {
     const handleThemeChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newTheme = e.target.value;
 
-        // Validate theme
         if (!themes[newTheme]) {
             setError('Invalid theme selected');
             return;
         }
 
-        setThemeByName(newTheme); // Update UI immediately
+        setThemeByName(newTheme);
 
         try {
             const token = localStorage.getItem('auth_token');
@@ -90,13 +88,14 @@ export default function Dashboard() {
                 { theme: newTheme },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+
             setError(null);
-            // Refetch profile to ensure UI reflects backend state
             await fetchProfile();
-        } catch (err: any) {
-            console.error('Failed to update theme:', err.response?.data || err.message);
-            setError(`Failed to save theme: ${err.response?.data?.message || err.message}`);
-            // Revert to previous theme if available
+        } catch (err: unknown) {
+            const axiosError = err as AxiosError<{ message: string }>;
+            console.error('Failed to update theme:', axiosError.response?.data || axiosError.message);
+            setError(`Failed to save theme: ${axiosError.response?.data?.message || axiosError.message}`);
+
             if (profile?.theme && themes[profile.theme]) {
                 setThemeByName(profile.theme);
             }
@@ -106,7 +105,7 @@ export default function Dashboard() {
     if (loading) {
         return (
             <div className={`min-h-screen flex items-center justify-center ${currentTheme.background} ${currentTheme.text}`}>
-                <p>Loading your dashboard...</p>
+                <p className="text-lg font-medium">Loading your dashboard...</p>
             </div>
         );
     }
@@ -114,31 +113,14 @@ export default function Dashboard() {
     if (!profile) {
         return (
             <div className={`min-h-screen flex items-center justify-center p-6 ${currentTheme.background} ${currentTheme.text}`}>
-                <div className="text-center space-y-4">
-                    <h1 className="text-2xl font-bold text-[#0B1D51]">No profile found</h1>
-                    <p className="text-[#B6B09F]">You haven't set up your digital business card yet.</p>
+                <div className="text-center space-y-6">
+                    <h1 className="text-3xl font-bold text-[#0B1D51]">No profile found</h1>
+                    <p className="text-lg text-[#B6B09F]">You haven't set up your digital business card yet.</p>
                     <button
                         onClick={() => navigate('/setup')}
-                        className="bg-[#FFF1D5] text-[#0B1D51] px-6 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
+                        className="bg-[#FFF1D5] text-[#0B1D51] px-6 py-3 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
                     >
                         Create Profile
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className={`min-h-screen flex items-center justify-center p-6 ${currentTheme.background} ${currentTheme.text}`}>
-                <div className="text-center space-y-4">
-                    <h1 className="text-2xl font-bold text-red-600">Error</h1>
-                    <p className="text-[#0B1D51]">{error}</p>
-                    <button
-                        onClick={() => navigate('/')}
-                        className="bg-[#FFF1D5] text-[#0B1D51] px-6 py-2 rounded-md font-semibold hover:bg-[#E7EFC7] transition"
-                    >
-                        Return to Home
                     </button>
                 </div>
             </div>
@@ -149,24 +131,24 @@ export default function Dashboard() {
 
     return (
         <div className={`min-h-screen p-6 ${currentTheme.background} ${currentTheme.text} transition-colors duration-300`}>
-            <div className="max-w-3xl mx-auto bg-[#FFF1D5] p-6 rounded-2xl border border-[#B6B09F] shadow-lg">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold text-[#0B1D51]">Your Profile</h1>
+            <div className="max-w-3xl mx-auto bg-[#FFF1D5] p-8 rounded-2xl border border-[#B6B09F] shadow-lg">
+                <div className="flex justify-between items-center mb-8">
+                    <h1 className="text-3xl font-bold text-[#0B1D51]">Your Profile</h1>
                     <button
                         onClick={() => navigate(`/edit-profile`)}
-                        className="bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#E7EFC7] transition"
+                        className="bg-[#FFF1D5] text-[#0B1D51] px-5 py-2 rounded-md text-base font-semibold hover:bg-[#E7EFC7] transition"
                     >
                         Edit
                     </button>
                 </div>
 
-                <div className="mb-6">
-                    <label htmlFor="theme-select" className="block text-sm mb-1 font-semibold text-[#0B1D51]">
+                <div className="mb-8">
+                    <label htmlFor="theme-select" className="block text-base font-semibold text-[#0B1D51] mb-2">
                         Select Theme:
                     </label>
                     <select
                         id="theme-select"
-                        className="bg-[#E7EFC7] border border-[#B6B09F] rounded-md px-3 py-2 text-[#0B1D51] focus:ring-[#0B1D51] focus:border-[#0B1D51]"
+                        className="w-full bg-[#E7EFC7] border border-[#B6B09F] rounded-md px-4 py-2 text-[#0B1D51] focus:ring-[#0B1D51] focus:border-[#0B1D51]"
                         value={currentTheme.name}
                         onChange={handleThemeChange}
                     >
@@ -178,30 +160,30 @@ export default function Dashboard() {
                     </select>
                 </div>
 
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
                     <img
                         src={profile.image_url}
                         alt={`${profile.full_name}'s profile picture`}
-                        className="w-40 h-40 rounded-xl object-cover border border-[#B6B09F]"
+                        className="w-48 h-48 rounded-xl object-cover border-2 border-[#B6B09F]"
                     />
 
                     <div className="flex-1">
-                        <h2 className="text-xl font-semibold text-[#0B1D51]">{profile.full_name}</h2>
-                        <p className="text-[#B6B09F]">{profile.headline}</p>
-                        <p className="text-sm mt-2 text-[#0B1D51]">{profile.company}</p>
-                        <p className="text-sm text-[#B6B09F] mt-1">{profile.email}</p>
+                        <h2 className="text-2xl font-semibold text-[#0B1D51] mb-2">{profile.full_name}</h2>
+                        <p className="text-lg text-[#B6B09F] mb-2">{profile.headline}</p>
+                        <p className="text-base text-[#0B1D51] mb-1">{profile.company}</p>
+                        <p className="text-base text-[#B6B09F]">{profile.email}</p>
 
-                        <div className="mt-4 space-y-1">
-                            <h3 className="text-base font-medium text-[#0B1D51]">Social Links:</h3>
+                        <div className="mt-6 space-y-2">
+                            <h3 className="text-lg font-medium text-[#0B1D51]">Social Links:</h3>
                             {socialMediaLinks.length > 0 ? (
-                                <ul className="space-y-1 list-disc list-inside text-sm">
+                                <ul className="space-y-1 list-disc list-inside text-base">
                                     {socialMediaLinks.map(([key, value]) => (
                                         <li key={key}>
                                             <a
                                                 href={value}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-[#0B1D51] hover:underline"
+                                                className="text-[#0B1D51] hover:text-[#E7EFC7] transition"
                                             >
                                                 {key.charAt(0).toUpperCase() + key.slice(1)}
                                             </a>
@@ -209,16 +191,16 @@ export default function Dashboard() {
                                     ))}
                                 </ul>
                             ) : (
-                                <p className="text-[#B6B09F]">No links provided.</p>
+                                <p className="text-base text-[#B6B09F]">No links provided.</p>
                             )}
                         </div>
 
-                        <div className="mt-6">
+                        <div className="mt-8">
                             <a
                                 href={`https://www.todosdigitals.com/u/${profile.slug}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-block bg-[#FFF1D5] text-[#0B1D51] px-4 py-2 rounded-md text-sm font-semibold hover:bg-[#E7EFC7] transition"
+                                className="inline-block bg-[#FFF1D5] text-[#0B1D51] px-6 py-2 rounded-md text-base font-semibold hover:bg-[#E7EFC7] transition"
                             >
                                 View Public Profile
                             </a>
