@@ -89,7 +89,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ user }) => {
             </div>
 
             {/* Info Section */}
-            <div className="flex-1 px-6 pt-4 pb-8 flex flex-col gap-6 bg-white">
+            <div className={`flex-1 px-6 pt-4 pb-8 flex flex-col gap-6 ${theme.background}`}>
                 {/* Name and Headline */}
                 <div>
                     <h1 className="text-3xl md:text-4xl font-bold text-[#3b5998]">

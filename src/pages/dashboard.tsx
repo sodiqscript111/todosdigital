@@ -118,7 +118,7 @@ export default function Dashboard() {
     if (loading) {
         return (
             <div
-                className={`min-h-screen flex items-center justify-center bg-black text-white`}
+                className={`min-h-screen flex items-center justify-center ${currentTheme.background} ${currentTheme.text}`}
             >
                 <p className="text-xl font-medium">Loading your dashboard...</p>
             </div>
@@ -128,7 +128,7 @@ export default function Dashboard() {
     if (!profile) {
         return (
             <div
-                className={`min-h-screen flex items-center justify-center p-8 bg-black text-white`}
+                className={`min-h-screen flex items-center justify-center p-8 ${currentTheme.background} ${currentTheme.text}`}
             >
                 <div className="text-center space-y-6">
                     <h1 className="text-3xl font-bold text-[#FFF1D5]">No profile found</h1>
@@ -149,7 +149,7 @@ export default function Dashboard() {
     if (error) {
         return (
             <div
-                className={`min-h-screen flex items-center justify-center p-8 bg-black text-white`}
+                className={`min-h-screen flex items-center justify-center p-8 ${currentTheme.background} ${currentTheme.text}`}
             >
                 <div className="text-center space-y-6">
                     <h1 className="text-3xl font-bold text-red-600">Error</h1>
@@ -171,9 +171,9 @@ export default function Dashboard() {
 
     return (
         <div
-            className={`min-h-screen p-8 bg-black text-white transition-colors duration-300`}
+            className={`min-h-screen p-8 ${currentTheme.background} ${currentTheme.text} transition-colors duration-300`}
         >
-            <div className="max-w-3xl mx-auto bg-[#FFF1D5] p-8 rounded-2xl border border-[#B6B09F] shadow-xl">
+            <div className={`max-w-3xl mx-auto p-8 rounded-2xl border border-[#B6B09F] shadow-xl ${currentTheme.background}`}>
                 {profile.header_image_url && (
                     <img
                         src={profile.header_image_url}
