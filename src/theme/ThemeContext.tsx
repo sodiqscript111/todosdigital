@@ -23,13 +23,13 @@ export const themes: Record<string, ThemeType> = {
     ocean: {
         name: 'ocean',
         background: 'bg-[#3D096C]', // Midnight Grape – bold base
-        text: 'text-[#E1AAFF]',     // Lavender Cloud – tint
+        text: 'text-[#fff]',     // Lavender Cloud – tint
     },
     // Forest: Earthy palette (Natural / Calm / Organic)
     forest: {
         name: 'forest',
         background: 'bg-[#2E1F1B]', // Sable Brown – deep base
-        text: 'text-[#EFEBE5]',     // Dune Mist – warm clean
+        text: 'text-[#fff]',     // Dune Mist – warm clean
     },
     // Peach: Optional, unchanged
     peach: {
