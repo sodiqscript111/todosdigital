@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ThemeContext, themes } from '../theme/ThemeContext';
 
@@ -60,7 +60,7 @@ export default function EditProfilePage() {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                const data = res.data?.profile;
+                const data = res.data; // Matches GetProfileByUserID response structure
                 if (!data) {
                     setError('Profile data not found.');
                     setLoading(false);
@@ -94,7 +94,8 @@ export default function EditProfilePage() {
                 }
 
             } catch (err) {
-                console.error(err);
+                const error = err as AxiosError;
+                console.error('Fetch error:', error.response?.data || error.message);
                 setError('Failed to load profile.');
             } finally {
                 setLoading(false);
@@ -126,19 +127,25 @@ export default function EditProfilePage() {
     const handleImageUpload = async (file: File, type: 'image_url' | 'header_image_url') => {
         const uploadData = new FormData();
         uploadData.append('file', file);
-        uploadData.append('upload_preset', 'your_upload_preset'); // Replace
-        uploadData.append('cloud_name', 'your_cloud_name'); // Replace
+        uploadData.append('upload_preset', 'your_upload_preset'); // Replace with your Cloudinary upload preset
+        uploadData.append('cloud_name', 'your_cloud_name'); // Replace with your Cloudinary cloud name
 
-        const res = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
-            method: 'POST',
-            body: uploadData,
-        });
+        try {
+            const res = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
+                method: 'POST',
+                body: uploadData,
+            });
 
-        const data = await res.json();
-        setFormData((prev) => ({
-            ...prev,
-            [type]: data.secure_url,
-        }));
+            const data = await res.json();
+            setFormData((prev) => ({
+                ...prev,
+                [type]: data.secure_url,
+            }));
+        } catch (err) {
+            const error = err as AxiosError;
+            console.error('Image upload error:', error);
+            setError('Failed to upload image.');
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -151,8 +158,10 @@ export default function EditProfilePage() {
                 headers: { Authorization: `Bearer ${token}` },
             });
             alert('Profile updated successfully!');
+            navigate('/dashboard'); // Redirect to dashboard after success
         } catch (err) {
-            console.error(err);
+            const error = err as AxiosError;
+            console.error('Update error:', error.response?.data || error.message);
             setError('Failed to update profile.');
         } finally {
             setLoading(false);
@@ -170,29 +179,78 @@ export default function EditProfilePage() {
             {error && <div className="text-red-500 mb-2">{error}</div>}
 
             <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
-                <input name="full_name" placeholder="Full Name" value={formData.full_name} onChange={handleChange} className="w-full p-2 rounded border" />
+                <input
+                    name="full_name"
+                    placeholder="Full Name"
+                    value={formData.full_name}
+                    onChange={handleChange}
+                    className="w-full p-2 rounded border"
+                />
 
-                <input name="headline" placeholder="Headline" value={formData.headline} onChange={handleChange} className="w-full p-2 rounded border" />
+                <input
+                    name="headline"
+                    placeholder="Headline"
+                    value={formData.headline}
+                    onChange={handleChange}
+                    className="w-full p-2 rounded border"
+                />
 
-                <input name="company" placeholder="Company" value={formData.company} onChange={handleChange} className="w-full p-2 rounded border" />
+                <input
+                    name="company"
+                    placeholder="Company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="w-full p-2 rounded border"
+                />
 
-                <input name="address" placeholder="Address" value={formData.address} onChange={handleChange} className="w-full p-2 rounded border" />
+                <input
+                    name="address"
+                    placeholder="Address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="w-full p-2 rounded border"
+                />
 
-                <input name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full p-2 rounded border" />
+                <input
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full p-2 rounded border"
+                />
 
-                <textarea name="bio" placeholder="Short Bio" value={formData.bio} onChange={handleChange} className="w-full p-2 rounded border" />
+                <textarea
+                    name="bio"
+                    placeholder="Short Bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    className="w-full p-2 rounded border"
+                />
 
                 <div>
                     <label>Profile Image</label>
-                    <input type="file" onChange={(e) => e.target.files && handleImageUpload(e.target.files[0], 'image_url')} />
+                    <input
+                        type="file"
+                        onChange={(e) => e.target.files && handleImageUpload(e.target.files[0], 'image_url')}
+                    />
+                    {formData.image_url && <p>Current: {formData.image_url}</p>}
                 </div>
 
                 <div>
                     <label>Header Image</label>
-                    <input type="file" onChange={(e) => e.target.files && handleImageUpload(e.target.files[0], 'header_image_url')} />
+                    <input
+                        type="file"
+                        onChange={(e) => e.target.files && handleImageUpload(e.target.files[0], 'header_image_url')}
+                    />
+                    {formData.header_image_url && <p>Current: {formData.header_image_url}</p>}
                 </div>
 
-                <select name="theme" value={formData.theme} onChange={handleChange} className="w-full p-2 rounded border">
+                <select
+                    name="theme"
+                    value={formData.theme}
+                    onChange={handleChange}
+                    className="w-full p-2 rounded border"
+                >
                     <option value="">Select Theme</option>
                     {Object.entries(themes).map(([key, value]) => (
                         <option key={key} value={key}>{value.name}</option>
