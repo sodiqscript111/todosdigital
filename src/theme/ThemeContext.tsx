@@ -7,34 +7,37 @@ interface ThemeType {
 }
 
 export const themes: Record<string, ThemeType> = {
+    // Light: Clean and modern
     light: {
         name: 'light',
-        background: 'bg-[#F4F4F5]',
-        text: 'text-[#1A1A1A]',
+        background: 'bg-[#F4F4F5]', // soft gray-white
+        text: 'text-[#1A1A1A]',     // near-black
     },
+    // Dark: Pure black and white
     dark: {
         name: 'dark',
-        background: 'bg-[#0D1117]',
-        text: 'text-[#E6EDF3]',
+        background: 'bg-black',
+        text: 'text-white',
     },
+    // Ocean: Purple palette (Creative / Bold / Futuristic)
     ocean: {
         name: 'ocean',
-        background: 'bg-[#075985]', // Sleek ocean depth
-        text: 'text-[#F0F9FF]',     // Clear ice blue
+        background: 'bg-[#3D096C]', // Midnight Grape – bold base
+        text: 'text-[#E1AAFF]',     // Lavender Cloud – tint
     },
+    // Forest: Earthy palette (Natural / Calm / Organic)
     forest: {
         name: 'forest',
-        background: 'bg-[#14532D]', // Rich forest base
-        text: 'text-[#F0FFF4]',     // Soft mint white
+        background: 'bg-[#2E1F1B]', // Sable Brown – deep base
+        text: 'text-[#EFEBE5]',     // Dune Mist – warm clean
     },
+    // Peach: Optional, unchanged
     peach: {
         name: 'peach',
-        background: 'bg-[#FFF1E6]',
-        text: 'text-[#4B3832]',
+        background: 'bg-[#FFF1E6]', // pastel peach
+        text: 'text-[#4B3832]',     // warm brown-black
     },
 };
-
-
 
 export interface ThemeContextType {
     theme: ThemeType;
