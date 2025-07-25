@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 
 interface Product {
     name: string;
@@ -7,7 +6,7 @@ interface Product {
 }
 const products: Product[] = [
     {
-        name: "Flyer",
+        name: "Rollup Banner",
         price: "15,000 per 100",
         image: "https://i.ibb.co/WN08nCCh/Whats-App-Image-2025-07-06-at-14-24-34-27421a02.jpg",
     },
@@ -34,37 +33,37 @@ const products: Product[] = [
     {
         name: "Book Cover",
         price: "20,000 per 100",
-        image: "https://i.ibb.co/S4pjXMzr/Whats-App-Image-2025-07-06-at-14-24-50-d6f8c1ef.jpg",
+        image: "https://i.ibb.co/pNXfzbF/Image-fx-81.png",
     },
     {
         name: "Poster",
         price: "18,000 per 100",
-        image: "https://i.ibb.co/TxwVhTjt/Whats-App-Image-2025-07-06-at-14-24-37-161ad57c.jpg",
+        image: "https://i.ibb.co/Jw94Gr65/Image-fx-82.png",
     },
     {
-        name: "Custom Brochure",
+        name: " Paper Bags",
         price: "22,000 per 100",
-        image: "https://i.ibb.co/S7Q7p95T/Whats-App-Image-2025-07-06-at-14-24-35-23a2f923.jpg",
+        image: "https://i.ibb.co/Y6sHNYj/Image-fx-83.png",
     },
     {
-        name: "Sticker Label",
+        name: "Calendars",
         price: "10,000 per 100",
-        image: "https://i.ibb.co/xKPZVtGT/Whats-App-Image-2025-07-06-at-14-24-34-8fe47a0f.jpg",
+        image: "https://i.ibb.co/mVdwhD4B/Image-fx-84.png",
     },
     {
-        name: "Custom Notebook",
+        name: "Postcards",
         price: "25,000 per 100",
-        image: "https://i.ibb.co/WNLvbtMX/Whats-App-Image-2025-07-06-at-14-24-46-b93a99f2.jpg",
+        image: "https://i.ibb.co/CKCCJhC8/Image-fx-86.png",
     },
     {
         name: "Envelope Design",
         price: "13,000 per 100",
-        image: "https://i.ibb.co/TDzYgSY0/Whats-App-Image-2025-07-06-at-14-24-47-9af0bf2b.jpg",
+        image: "https://i.ibb.co/ZRdJssrK/Image-fx-85.png",
     },
     {
-        name: "Roll-up Banner",
+        name: "Stickers",
         price: "30,000 each",
-        image: "https://i.ibb.co/WSmLdfF/Latest-Work-010-31b6aac22e58ea04e9d5.png",
+        image: "https://i.ibb.co/jx6FC9M/Image-fx-87.png",
     },
 ];
 
@@ -113,13 +112,16 @@ export default function AllProductsPage() {
             </div>
 
             <div className="text-center mt-16">
-                <Link
-                    to="/"
-                    className="inline-block px-6 py-3 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition"
+                <a
+                    href="https://wa.me/2349166027379?text=Hi, I couldn’t find the product I’m looking for. Can you help me?"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-6 py-3 bg-green-600 text-white rounded-full text-sm font-medium hover:bg-green-700 transition"
                 >
-                    Back to Home
-                </Link>
+                    Can’t find your product? Chat with us
+                </a>
             </div>
+
         </div>
     );
 }
