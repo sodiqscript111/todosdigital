@@ -4,69 +4,69 @@ interface Product {
     price: string;
     image: string;
 }
+
 const products: Product[] = [
     {
         name: "Rollup Banner",
-        price: "15,000 per 100",
+        price: "Starting from ₦15,000",
         image: "https://i.ibb.co/WN08nCCh/Whats-App-Image-2025-07-06-at-14-24-34-27421a02.jpg",
     },
     {
         name: "Business Card (PVC)",
-        price: "18,000 per 100",
+        price: "Starting from ₦18,000",
         image: "https://i.ibb.co/MxQDNvN7/Image-fx-80.png",
     },
     {
         name: "Business Card (Metal)",
-        price: "25,000 per 100",
+        price: "Starting from ₦25,000",
         image: "https://i.ibb.co/N66JFDNY/Image-fx-79.png",
     },
     {
         name: "Business Card (Paper)",
-        price: "12,000 per 100",
+        price: "Starting from ₦12,000",
         image: "https://i.ibb.co/20yxp5Nh/Image-fx-78.png",
     },
     {
         name: "Business Card (Wood)",
-        price: "20,000 per 100",
+        price: "Starting from ₦20,000",
         image: "https://i.ibb.co/xtX9sdws/Image-fx-77.png",
     },
     {
         name: "Book Cover",
-        price: "20,000 per 100",
+        price: "Starting from ₦20,000",
         image: "https://i.ibb.co/pNXfzbF/Image-fx-81.png",
     },
     {
         name: "Poster",
-        price: "18,000 per 100",
+        price: "Starting from ₦18,000",
         image: "https://i.ibb.co/Jw94Gr65/Image-fx-82.png",
     },
     {
-        name: " Paper Bags",
-        price: "22,000 per 100",
+        name: "Paper Bags",
+        price: "Starting from ₦22,000",
         image: "https://i.ibb.co/Y6sHNYj/Image-fx-83.png",
     },
     {
         name: "Calendars",
-        price: "10,000 per 100",
+        price: "Starting from ₦10,000",
         image: "https://i.ibb.co/mVdwhD4B/Image-fx-84.png",
     },
     {
         name: "Postcards",
-        price: "25,000 per 100",
+        price: "Starting from ₦25,000",
         image: "https://i.ibb.co/CKCCJhC8/Image-fx-86.png",
     },
     {
         name: "Envelope Design",
-        price: "13,000 per 100",
+        price: "Starting from ₦13,000",
         image: "https://i.ibb.co/ZRdJssrK/Image-fx-85.png",
     },
     {
         name: "Stickers",
-        price: "30,000 each",
+        price: "Starting from ₦30,000",
         image: "https://i.ibb.co/jx6FC9M/Image-fx-87.png",
     },
 ];
-
 
 export default function AllProductsPage() {
     return (
@@ -121,7 +121,6 @@ export default function AllProductsPage() {
                     Can’t find your product? Chat with us
                 </a>
             </div>
-
         </div>
     );
 }
