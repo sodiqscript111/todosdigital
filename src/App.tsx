@@ -22,6 +22,7 @@ import Dashboard from './pages/dashboard.tsx';
 import ForgotPassword from './pages/forgotPassword.tsx';
 import ResetPassword from './pages/resetPassword.tsx';
 import AllProductsPage  from "./pages/productPage.tsx";
+import EditProfilePage from "./pages/EditProfilePage.tsx";
 
 function App() {
     return (
@@ -65,6 +66,7 @@ function AppContent() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/products" element={<AllProductsPage/>}/>
+                <Route path="/edit-profile" element={<EditProfilePage/>}/>
             </Routes>
         </>
     );
