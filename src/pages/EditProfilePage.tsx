@@ -45,7 +45,7 @@ export default function EditProfilePage() {
     });
 
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true); // start loading true
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
@@ -60,7 +60,13 @@ export default function EditProfilePage() {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                const data = res.data.profile;
+                const data = res.data?.profile;
+                if (!data) {
+                    setError('Profile data not found.');
+                    setLoading(false);
+                    return;
+                }
+
                 setFormData({
                     full_name: data.full_name || '',
                     headline: data.headline || '',
@@ -86,14 +92,17 @@ export default function EditProfilePage() {
                 if (data.theme && themes[data.theme]) {
                     setThemeByName(data.theme);
                 }
+
             } catch (err) {
                 console.error(err);
                 setError('Failed to load profile.');
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchProfile();
-    }, [navigate]);
+    }, [navigate, setThemeByName]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -115,14 +124,14 @@ export default function EditProfilePage() {
     };
 
     const handleImageUpload = async (file: File, type: 'image_url' | 'header_image_url') => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', 'your_upload_preset'); // Replace with actual
-        formData.append('cloud_name', 'your_cloud_name'); // Replace with actual
+        const uploadData = new FormData();
+        uploadData.append('file', file);
+        uploadData.append('upload_preset', 'your_upload_preset'); // Replace
+        uploadData.append('cloud_name', 'your_cloud_name'); // Replace
 
         const res = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
             method: 'POST',
-            body: formData,
+            body: uploadData,
         });
 
         const data = await res.json();
@@ -149,6 +158,10 @@ export default function EditProfilePage() {
             setLoading(false);
         }
     };
+
+    if (loading) {
+        return <div className="p-6 text-lg">Loading profile...</div>;
+    }
 
     return (
         <div className={`min-h-screen ${theme.background} ${theme.text} p-6`}>
