@@ -125,7 +125,7 @@ export default function PrintingProducts() {
             {/* See All Button */}
             <div className="text-center mt-10">
                 <Link
-                    to="/printing"
+                    to="/products"
                     className="inline-block px-6 py-3 bg-black text-white rounded-full text-sm font-medium hover:bg-gray-800 transition"
                 >
                     See All Products
