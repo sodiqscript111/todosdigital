@@ -68,8 +68,8 @@ export default function Navbar() {
                             Contact Us
                         </Link>
                         {userName && slug ? (
-                            <Link to={`/u/${slug}`} className="text-[#0B1D51] hover:text-[#FFF1D5]">
-                                {userName}
+                            <Link to="/dashboard" className="text-[#0B1D51] hover:text-[#FFF1D5]">
+                               Dashboard
                             </Link>
                         ) : (
                             <Link to="/register" className="text-[#0B1D51] hover:text-[#FFF1D5]">
