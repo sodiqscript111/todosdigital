@@ -11,7 +11,7 @@ import {
     Link,
     Save,
     Linkedin,
-    GitHub,
+    Github,
     Twitter,
     Globe,
     Facebook,
@@ -194,7 +194,7 @@ export default function EditProfilePage() {
 
     const socialPlatforms = [
         { key: 'linkedin', label: 'LinkedIn', icon: Linkedin },
-        { key: 'github', label: 'GitHub', icon: GitHub },
+        { key: 'github', label: 'GitHub', icon: Github },
         { key: 'twitter', label: 'Twitter', icon: Twitter },
         { key: 'website', label: 'Website', icon: Globe },
         { key: 'facebook', label: 'Facebook', icon: Facebook },
@@ -455,7 +455,7 @@ export default function EditProfilePage() {
                             ) : (
                                 <>
                                     <Save className="w-4 h-4 mr-2" />
-                                    Update  Profile
+                                    Update Profile
                                 </>
                             )}
                         </button>
