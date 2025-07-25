@@ -10,8 +10,8 @@ export const themes: Record<string, ThemeType> = {
     // Light: Clean and modern
     light: {
         name: 'light',
-        background: 'bg-[#F4F4F5]', // soft gray-white
-        text: 'text-[#1A1A1A]',     // near-black
+        background: 'bg-[#EFEBE5]', // Dune Mist – warm, clean background
+        text: 'text-[#2E1F1B]',     // Sable Brown – deep, rich base
     },
     // Dark: Pure black and white
     dark: {
@@ -31,7 +31,7 @@ export const themes: Record<string, ThemeType> = {
         background: 'bg-[#2E1F1B]', // Sable Brown – deep base
         text: 'text-[#EFEBE5]',     // Dune Mist – warm clean
     },
-    // Peach: Optional, unchanged
+    // Peach: Soft & readable
     peach: {
         name: 'peach',
         background: 'bg-[#FFF1E6]', // pastel peach
