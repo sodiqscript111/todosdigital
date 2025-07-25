@@ -455,7 +455,7 @@ export default function EditProfilePage() {
                             ) : (
                                 <>
                                     <Save className="w-4 h-4 mr-2" />
-                                    Update Profile
+                                    Update  Profile
                                 </>
                             )}
                         </button>
