@@ -7,37 +7,33 @@ interface ThemeType {
 }
 
 export const themes: Record<string, ThemeType> = {
-    // Light: Neutral and modern (Apple/Notion-style)
     light: {
         name: 'light',
-        background: 'bg-[#F4F4F5]', // soft gray-white
-        text: 'text-[#1A1A1A]',     // near-black
+        background: 'bg-[#F4F4F5]',
+        text: 'text-[#1A1A1A]',
     },
-    // Dark: Clean and elegant
     dark: {
         name: 'dark',
-        background: 'bg-[#0D1117]', // GitHub dark mode vibe
-        text: 'text-[#E6EDF3]',     // soft light blue-gray
+        background: 'bg-[#0D1117]',
+        text: 'text-[#E6EDF3]',
     },
-    // Ocean: Vibrant yet professional
     ocean: {
         name: 'ocean',
-        background: 'bg-[#0E7490]', // Tailwind cyan-700
-        text: 'text-white',
+        background: 'bg-[#075985]', // Sleek ocean depth
+        text: 'text-[#F0F9FF]',     // Clear ice blue
     },
-    // Forest: Subdued and premium green
     forest: {
         name: 'forest',
-        background: 'bg-[#1B4332]', // dark forest green
-        text: 'text-[#D8F3DC]',     // minty soft green
+        background: 'bg-[#14532D]', // Rich forest base
+        text: 'text-[#F0FFF4]',     // Soft mint white
     },
-    // Peach: Stylish and soft (but readable)
     peach: {
         name: 'peach',
-        background: 'bg-[#FFF1E6]', // pastel peach
-        text: 'text-[#4B3832]',     // warm brownish black
+        background: 'bg-[#FFF1E6]',
+        text: 'text-[#4B3832]',
     },
 };
+
 
 
 export interface ThemeContextType {
