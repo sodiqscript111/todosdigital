@@ -38,15 +38,17 @@ export default function HeroSection() {
 
     return (
         <section
-            className="h-[50vh]  sm:h-[90vh] md:h-screen w-full bg-cover bg-center bg-no-repeat text-white relative font-sans transition-all duration-700"
+            className="h-[50vh] sm:h-[90vh] md:h-screen w-full bg-cover bg-center bg-no-repeat text-white relative font-sans transition-all duration-700"
             style={{
                 backgroundImage: `url(${images[currentImageIndex]})`,
             }}
         >
             {/* Content */}
-            <div className="relative h-full w-full flex items-center  ">
-                <div className="px-6 sm:px-10 md:px-10 mb-[300px] max-w-4xl space-y-3">
-                    <p className="text-xl sm:text-2xl font-medium">Your Ultimate Creative Partner</p>
+            <div className="relative h-full w-full flex items-end md:items-center pb-10 sm:pb-20 md:pb-0">
+                <div className="px-6 sm:px-10 md:px-10 max-w-4xl space-y-3">
+                    <p className="text-xl sm:text-2xl font-medium">
+                        Your Ultimate Creative Partner
+                    </p>
                     <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight">
                         All Your Brand Needs to Grow and Stand Out
                     </h1>
