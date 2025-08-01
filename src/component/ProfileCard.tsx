@@ -131,7 +131,7 @@ const ProfileCard: FC<ProfileCardProps> = ({ user }) => {
 
                 {/* Save Contact */}
                 <a
-                    href={`${API_BASE_URL}/api/u/${user.slug}/vcard`}
+                    href={`${API_BASE_URL}/api/users/${user.slug}/vcard.vcf`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`inline-block w-max ${theme.buttonBackground || 'bg-[#3b5998]'} text-white font-semibold py-2 px-6 rounded-md hover:bg-[#4c70ba] transition`}
