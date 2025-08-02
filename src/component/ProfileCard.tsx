@@ -116,9 +116,30 @@ const ProfileCard: FC<ProfileCardProps> = ({ user }) => {
                                 </p>
                             )}
                             {user.address && (
-                                <p>
-                                    <span className="font-medium">Address:</span> {user.address}
-                                </p>
+                                <>
+                                    <p>
+                                        <span className="font-medium">Address:</span> {user.address}
+                                    </p>
+                                    <div className="mt-4">
+                                        <h3 className="text-sm font-semibold mb-2">Map Location</h3>
+                                        <a
+                                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(user.address)}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            aria-label="View full map"
+                                        >
+                                            <iframe
+                                                title="Business Location"
+                                                src={`https://www.google.com/maps?q=${encodeURIComponent(user.address)}&output=embed`}
+                                                width="100%"
+                                                height="250"
+                                                className="rounded-lg border border-gray-300 shadow-sm"
+                                                loading="lazy"
+                                                allowFullScreen
+                                            ></iframe>
+                                        </a>
+                                    </div>
+                                </>
                             )}
                             {user.bio && (
                                 <p>
