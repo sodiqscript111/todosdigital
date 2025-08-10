@@ -2,21 +2,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => {
-    const [isMobile, setIsMobile] = useState<boolean>(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-        const debounce = (func: () => void, wait: number) => {
-            let timeout: NodeJS.Timeout;
-            return () => {
-                clearTimeout(timeout);
-                timeout = setTimeout(func, wait);
-            };
-        };
-        checkMobile();
-        const debouncedCheckMobile = debounce(checkMobile, 200);
-        window.addEventListener("resize", debouncedCheckMobile);
-        return () => window.removeEventListener("resize", debouncedCheckMobile);
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     const navLinks = [
@@ -33,38 +25,29 @@ const Footer: React.FC = () => {
     ];
 
     return (
-        <footer className="bg-black text-white py-12 px-4 sm:px-6 lg:px-8 border-t border-neutral-800 relative">
-            <style>{`
-        :root {
-          --primary: #3e60a2;
-          --primary-dark: #324e88;
-          --background: #000000;
-          --text: #ffffff;
-        }
-      `}</style>
+        <footer className="bg-black text-white py-10 px-4 border-t border-neutral-800">
+            <div className="max-w-5xl mx-auto flex flex-col gap-8">
+                {/* Brand */}
+                <div className="text-center">
+                    <h2 className="text-3xl font-bold">
+                        <span className="text-[#3e60a2]">Todos</span> Digitals
+                    </h2>
+                    <p className="text-gray-300 text-sm mt-2 leading-relaxed max-w-sm mx-auto">
+                        Transform your networking with sleek, contactless digital business cards powered by NFC technology.
+                    </p>
+                </div>
 
-            <div className="max-w-5xl mx-auto relative z-10">
-                <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-8">
-                    {/* Brand and Description */}
-                    <div className="text-center lg:text-left">
-                        <h2 className="text-3xl font-bold">
-                            <span className="text-[var(--primary)]">Todos</span> Digitals
-                        </h2>
-                        <p className="text-gray-300 text-base leading-relaxed mt-2 max-w-md">
-                            Transform your networking with sleek, contactless digital business cards powered by NFC technology.
-                        </p>
-                    </div>
-
-                    {/* Navigation Links */}
-                    <div className="flex flex-col items-center lg:items-start gap-2">
-                        <h3 className="text-lg font-semibold text-[var(--text)] mb-2">Quick Links</h3>
-                        <ul className="space-y-2">
-                            {navLinks.map((link, index) => (
-                                <li key={index}>
+                {/* Links */}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-8">
+                    {/* Navigation */}
+                    <div className="text-center sm:text-left">
+                        <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
+                        <ul className="flex flex-col gap-3">
+                            {navLinks.map((link, idx) => (
+                                <li key={idx}>
                                     <Link
                                         to={link.to}
-                                        className="text-gray-300 hover:text-[var(--primary)] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2"
-                                        aria-label={link.label}
+                                        className="text-gray-300 hover:text-[#3e60a2] transition-colors"
                                     >
                                         {link.label}
                                     </Link>
@@ -73,31 +56,28 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Contact and Social Media */}
-                    <div className="flex flex-col items-center lg:items-start gap-4">
-                        <div>
-                            <h3 className="text-lg font-semibold text-[var(--text)] mb-2">Contact Us</h3>
-                            <p className="text-gray-300 text-base">
-                                Email:{" "}
+                    {/* Contact + Social */}
+                    <div className="text-center sm:text-left">
+                        <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
+                        <p className="text-gray-300 text-sm">
+                            Email:{" "}
+                            <a
+                                href="mailto:support@todosdigitals.com"
+                                className="hover:text-[#3e60a2] transition-colors"
+                            >
+                                support@todosdigitals.com
+                            </a>
+                        </p>
+                        <p className="text-gray-300 text-sm">Phone: 09166027379</p>
+
+                        <div className="flex justify-center sm:justify-start gap-4 mt-4">
+                            {socialLinks.map((social, idx) => (
                                 <a
-                                    href="mailto:support@todosdigitals.com"
-                                    className="hover:text-[var(--primary)] transition-colors duration-300"
-                                    aria-label="Email support"
-                                >
-                                    support@todosdigitals.com
-                                </a>
-                            </p>
-                            <p className="text-gray-300 text-base">Phone: +1 (800) 123-4567</p>
-                        </div>
-                        <div className="flex gap-4">
-                            {socialLinks.map((social, index) => (
-                                <a
-                                    key={index}
+                                    key={idx}
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-gray-300 hover:text-[var(--primary)] text-2xl transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2"
-                                    aria-label={social.label}
+                                    className="text-gray-300 hover:text-[#3e60a2] text-xl"
                                 >
                                     <i className={social.icon}></i>
                                 </a>
@@ -106,16 +86,16 @@ const Footer: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Mobile-only note or adjustment (use isMobile if needed) */}
+                {/* Mobile note */}
                 {isMobile && (
-                    <div className="text-center text-sm text-gray-400 mt-4">
+                    <p className="text-center text-xs text-gray-500">
                         You’re viewing the mobile version.
-                    </div>
+                    </p>
                 )}
 
                 {/* Copyright */}
-                <div className="mt-8 text-center text-gray-400 text-sm">
-                    &copy; {new Date().getFullYear()} Todos Digitals. All rights  reserved.
+                <div className="text-center text-gray-400 text-xs mt-6 border-t border-neutral-800 pt-4">
+                    &copy; {new Date().getFullYear()} Todos Digitals. All rights reserved.
                 </div>
             </div>
         </footer>
