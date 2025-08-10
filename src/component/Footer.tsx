@@ -26,21 +26,21 @@ const Footer: React.FC = () => {
 
     return (
         <footer className="bg-black text-white py-10 px-4 border-t border-neutral-800">
-            <div className="max-w-5xl mx-auto flex flex-col gap-8">
+            <div className="max-w-5xl mx-auto flex flex-col gap-10">
                 {/* Brand */}
-                <div className="text-center">
+                <div>
                     <h2 className="text-3xl font-bold">
                         <span className="text-[#3e60a2]">Todos</span> Digitals
                     </h2>
-                    <p className="text-gray-300 text-sm mt-2 leading-relaxed max-w-sm mx-auto">
+                    <p className="text-gray-300 text-sm mt-2 leading-relaxed max-w-sm">
                         Transform your networking with sleek, contactless digital business cards powered by NFC technology.
                     </p>
                 </div>
 
                 {/* Links */}
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-8">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-10">
                     {/* Navigation */}
-                    <div className="text-center sm:text-left">
+                    <div>
                         <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
                         <ul className="flex flex-col gap-3">
                             {navLinks.map((link, idx) => (
@@ -57,7 +57,7 @@ const Footer: React.FC = () => {
                     </div>
 
                     {/* Contact + Social */}
-                    <div className="text-center sm:text-left">
+                    <div>
                         <h3 className="text-lg font-semibold mb-3">Contact Us</h3>
                         <p className="text-gray-300 text-sm">
                             Email:{" "}
@@ -68,9 +68,9 @@ const Footer: React.FC = () => {
                                 support@todosdigitals.com
                             </a>
                         </p>
-                        <p className="text-gray-300 text-sm">Phone: 09166027379</p>
+                        <p className="text-gray-300 text-sm mt-1">Phone: +1 (800) 123-4567</p>
 
-                        <div className="flex justify-center sm:justify-start gap-4 mt-4">
+                        <div className="flex gap-4 mt-4">
                             {socialLinks.map((social, idx) => (
                                 <a
                                     key={idx}
@@ -88,13 +88,13 @@ const Footer: React.FC = () => {
 
                 {/* Mobile note */}
                 {isMobile && (
-                    <p className="text-center text-xs text-gray-500">
+                    <p className="text-xs text-gray-500">
                         You’re viewing the mobile version.
                     </p>
                 )}
 
                 {/* Copyright */}
-                <div className="text-center text-gray-400 text-xs mt-6 border-t border-neutral-800 pt-4">
+                <div className="text-gray-400 text-xs mt-4 border-t border-neutral-800 pt-4">
                     &copy; {new Date().getFullYear()} Todos Digitals. All rights reserved.
                 </div>
             </div>
